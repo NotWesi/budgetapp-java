@@ -13,7 +13,8 @@ students budgeting their allowance to working adults managing this expenses.
 I *chose* to pursue this as my project idea because:
 - Personal finance is something I have struggled with
 - I wanted my project to be something that is applicable to a large demographic 
-- As a computer science student who is learning, I wanted my project to help my develop my technical skills
+- I want to take this opportunity to challenge myself to create an engaging and well-developed project
+- As a computer science student who is learning, this project will help me develop my technical skills
 
 The application will be designed to be a simple personal budgeting tool. You will be able to
 add expenses and sources of income to create a balance sheet of each month of the year.
