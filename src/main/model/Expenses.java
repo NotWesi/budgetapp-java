@@ -29,6 +29,18 @@ public class Expenses {
         return entries;
     }
 
+    // EFFECTS: gets the total amount for Budget
+    public double getTotalAmount() {
+        double monthlyAmount = 0.0;
+
+        for (Entry entry : entries) {
+            monthlyAmount += entry.getAmount();
+        }
+
+        // returns the monthly amount
+        return monthlyAmount;
+    }
+
     // MODIFIES: entry
     // EFFECTS: modifies amount of entry in expenses to new amount
     public void modifyEntryAmount(int index, double newAmount) {
