@@ -34,5 +34,6 @@ on the application
 - As a user, I want to be able to create an expense and add it to my list of expenses.
 - As a user, I want to be able to visualize my budget or expenses through a pie chart
 - As a user, I want to be able to edit my budget or expenses entries if applicable
+- As a user, I want to be able to add a new yearly budget for a specific year
 - As a user, I want to be able to sort my finances depending on the year and month
 - (Extra) As a user, I want to be able to select different themes or colour schemes for the application

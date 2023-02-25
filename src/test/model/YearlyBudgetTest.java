@@ -21,6 +21,8 @@ class YearlyBudgetTest {
     public Entry entryTwo;
     public Month january;
     public YearlyBudget year2021;
+    public YearlyBudgets yearlyBudgets;
+    public int year;
 
     @BeforeEach
     void runbefore() {
@@ -29,7 +31,8 @@ class YearlyBudgetTest {
         entryOne = new Entry("Salary", 2000.75);
         entryTwo = new Entry("Rent", 1200.0);
         january = new Month();
-        year2021 = new YearlyBudget();
+        year = 2021;
+        year2021 = new YearlyBudget(year);
     }
 
     @Test
@@ -205,6 +208,16 @@ class YearlyBudgetTest {
         // assert if the net budget is equal to expected value
         assertEquals(2651.5, year2021.getNetBudget());
 
+    }
+
+    @Test
+    public void testcheckYear() {
+        // adds year to yearly budgets
+        YearlyBudget year2022 = new YearlyBudget(2022);
+        yearlyBudgets.setYear(year2022);
+
+        //checks if year is present in yearly budgets
+        assertEquals(null, yearlyBudgets.getYear(2021));
     }
 
 

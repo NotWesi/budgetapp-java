@@ -34,6 +34,16 @@ public class Budget {
         return entries;
     }
 
+    // EFFECTS: returns the desired entry from the list of entries
+    public boolean checkEntry(Entry entry) {
+        for (Entry e : entries) {
+            if (e.equals(entry)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // EFFECTS: gets the total amount for Budget
     public double getTotalAmount() {
         double monthlyAmount = 0.0;

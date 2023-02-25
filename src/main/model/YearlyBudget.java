@@ -1,16 +1,20 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class YearlyBudget {
+    private int year;
     private ArrayList<Month> months;
 
-    public YearlyBudget() {
+    public YearlyBudget(int year) {
+        this.year = year;
         months = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             months.add(new Month());
         }
     }
+
 
     // MODIFIES: months
     // EFFECTS: sets the month info for each month
@@ -46,4 +50,5 @@ public class YearlyBudget {
         double netBudget = totalBudget - totalExpenses;
         return netBudget;
     }
+
 }

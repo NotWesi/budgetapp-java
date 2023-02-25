@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Entry {
     private String name;
     private double amount;
@@ -30,6 +32,20 @@ public class Entry {
     // EFFECTS: sets amount
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    // EFFECTS: checks if entry's name and age are equal
+    // SOURCE: this snippet is taken from: INSERT URL HERE
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Entry entry = (Entry) o;
+        return amount == entry.amount && Objects.equals(name, entry.name);
     }
 
 }

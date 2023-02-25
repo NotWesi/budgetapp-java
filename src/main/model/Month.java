@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Month {
     private Budget budget;
     private Expenses expenses;
@@ -44,4 +46,25 @@ public class Month {
         expenses.modifyEntryDescription(index, newName);
     }
 
+    // EFFECTS: returns the net budget for the month
+    public double netmonthlyBudget(Month month) {
+        // initializes empty total budget and expenses
+        double totalBudget = 0.0;
+        double totalExpenses = 0.0;
+
+        ArrayList<Entry> budgets = month.getBudget().getEntries();
+        ArrayList<Entry> expenses = month.getExpenses().getEntries();
+
+        // Sum the budget and expenses for the month
+        for (Entry budget : budgets) {
+            totalBudget += budget.getAmount();
+        }
+        for (Entry expense : expenses) {
+            totalExpenses += expense.getAmount();
+        }
+        // Calculate the net budget
+        double netBudget = totalBudget - totalExpenses;
+        return netBudget;
+    }
 }
+
