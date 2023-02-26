@@ -22,7 +22,8 @@ public class BudgetApp {
             System.out.println("3. View the budget, expense or both entries for a month");
             System.out.println("4. View net budget for a month");
             System.out.println("5. Remove an entry for a month");
-            System.out.println("6. Exit");
+            System.out.println("6. Edit an entry for a month");
+            System.out.println("7. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -74,8 +75,18 @@ public class BudgetApp {
                     removeEntry(scanner, yearlyBudgets);
                     break;
 
-                // the sequence for exiting the program
+                // the option to remove an entry from the month
                 case 6:
+                    // checks if there is a year budget already added
+                    if (yearlyBudgets.getYearlyBudgets().size() == 0) {
+                        System.out.println("Please add a year budget first!");
+                        break;
+                    }
+                    modifyEntry(scanner, yearlyBudgets);
+                    break;
+
+                // the sequence for exiting the program
+                case 7:
                     System.out.println("Exiting the program now...");
                     System.exit(0);
                     break;
@@ -269,7 +280,7 @@ public class BudgetApp {
             boolean budgetCheck = budget.checkEntry(selectedName, selectedAmount);
             // if entry exists, remove the entry
             if (budgetCheck) {
-                selectedYearBudget.getMonth(selectedMonth).getBudget().removeEntry(selectedName, selectedAmount);
+                budget.removeEntry(selectedName, selectedAmount);
                 System.out.println("The entry was removed! ");
             } else {
                 // entry does not exist, error message and returns
@@ -279,7 +290,7 @@ public class BudgetApp {
             Expenses expenses = selectedYearBudget.getMonth(selectedMonth).getExpenses();
             boolean expensesCheck = expenses.checkEntry(selectedName, selectedAmount);
             if (expensesCheck) {
-                selectedYearBudget.getMonth(selectedMonth).getExpenses().removeEntry(selectedName, selectedAmount);
+                expenses.removeEntry(selectedName, selectedAmount);
                 System.out.println("The entry was removed! ");
             } else {
                 // entry does not exist, error message and returns
@@ -299,6 +310,71 @@ public class BudgetApp {
             }
         }
         return null; // returns null if not found
+    }
+
+    // REQUIRES: entry description and amount
+    // EFFECTS: modifies the entry description and amount for the specific entry
+    @SuppressWarnings("methodlength")
+    public static void modifyEntry(Scanner scanner, YearlyBudgets yearlyBudgets) {
+        System.out.println("Which year would you like to remove this entry for?");
+        int selectedYear = scanner.nextInt();
+        scanner.nextLine();
+
+        // checks if the year budget exists
+        YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, selectedYear);
+        if (selectedYearBudget == null) {
+            System.out.println("Year budget not found!");
+            return;
+        }
+
+        // asks user what month they want to remove an entry for
+        System.out.println("Which month would you like to edit this entry for?");
+        int selectedMonth = scanner.nextInt();
+
+        System.out.println("Is this a budget or expenses entry? Type 1 for budget or 2 for expenses");
+        int selectedOption = scanner.nextInt();
+
+        // asks user the description of the entry they want to remove
+        System.out.println("Please type the description for the entry");
+        String selectedName = scanner.next();
+        // asks user the amount of the entry
+        System.out.println("Please type the amount for the entry");
+        double selectedAmount = scanner.nextDouble();
+
+        // asks user the description of the entry they want to add
+        System.out.println("Please type the description for the entry");
+        String newName = scanner.next();
+        // asks user the amount of the entry they want to add
+        System.out.println("Please type the amount for the entry");
+        double newAmount = scanner.nextDouble();
+
+        if (selectedOption == 1) {
+            // loops through budget entries
+            Budget budget = selectedYearBudget.getMonth(selectedMonth).getBudget();
+            boolean budgetCheck = budget.checkEntry(selectedName, selectedAmount);
+            // if entry exists, remove the entry
+            if (budgetCheck) {
+                int i = budget.getEntryIndex(selectedName, selectedAmount);
+                budget.modifyEntryAmount(i, newAmount);
+                budget.modifyEntryDescription(i, newName);
+                System.out.println("The entry was edited! ");
+            } else {
+                // entry does not exist, error message and returns
+                System.out.println("The entry does not exist! ");
+            }
+        } else {
+            Expenses expenses = selectedYearBudget.getMonth(selectedMonth).getExpenses();
+            boolean expensesCheck = expenses.checkEntry(selectedName, selectedAmount);
+            if (expensesCheck) {
+                int i = expenses.getEntryIndex(selectedName, selectedAmount);
+                expenses.modifyEntryAmount(i, newAmount);
+                expenses.modifyEntryDescription(i, newName);
+                System.out.println("The entry was edited! ");
+            } else {
+                // entry does not exist, error message and returns
+                System.out.println("The entry does not exist! ");
+            }
+        }
     }
 }
 

@@ -71,6 +71,7 @@ class YearlyBudgetTest {
         // assert if the get entry is functional
         assertEquals(entryOne.getName(), year2021.getMonth(1).getBudget().getEntry("Salary", 2000.75).getName());
         assertEquals(entryOne.getAmount(), year2021.getMonth(1).getBudget().getEntry("Salary", 2000.75).getAmount());
+        assertEquals(null, year2021.getMonth(1).getBudget().getEntry("Salary", 3000));
 
         // assert if the remove entry is functional
         year2021.getMonth(1).getBudget().removeEntry("Salary", 2000.75);
@@ -85,6 +86,16 @@ class YearlyBudgetTest {
         // checks if the entry exists
         assertTrue(budget.checkEntry("Refund", 175.0));
         assertFalse(budget.checkEntry("Refund", 200.0));
+    }
+
+    @Test
+    public void testGetEntryIndex() {
+        // adds an entry to the budget object
+        budget.addEntry(new Entry("Refund", 175.0));
+
+        // gets the entry's index (one pass and fail case)
+        assertEquals(0, budget.getEntryIndex("Refund", 175.0));
+        assertEquals(-1, budget.getEntryIndex("Refund", 165.0));
     }
 
     @Test
@@ -159,7 +170,7 @@ class YearlyBudgetTest {
         january.getBudget().addEntry(new Entry("Salary", 2000.75));
         january.getExpenses().addEntry(new Entry("Rent", 1200.0));
 
-        // tests if get budget and expenses methods work properly
+        // tests get budget and expenses methods work properly (more specific with entry description)
         assertEquals("Salary", january.getBudget().getEntry("Salary", 2000.75).getName());
         assertEquals(1200.0, january.getExpenses().getEntry("Rent", 1200.0).getAmount());
     }

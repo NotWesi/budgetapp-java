@@ -81,5 +81,25 @@ public class Budget {
         Entry entry = entries.get(index);
         entry.setName(newName);
     }
+
+    // EFFECTS: returns length of the list of yearly objects
+    public int getSize() {
+        return entries.size();
+    }
+
+    // EFFECTS: return the entry at an index
+    public Entry getSpecificEntry(int i) {
+        return entries.get(i);
+    }
+
+    // EFFECTS: returns the index of an entry
+    public int getEntryIndex(String name, double amount) {
+        for (int i = 0; i < entries.size(); i++) {
+            if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
+                return i; // returns the entry index that matches the description and amount
+            }
+        }
+        return -1; // entry is not found
+    }
 }
 
