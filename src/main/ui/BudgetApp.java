@@ -155,6 +155,7 @@ public class BudgetApp {
         System.out.println("Entry has been added successfully!");
     }
 
+    @SuppressWarnings("methodlength")
     public static void viewEntries(Scanner scanner, YearlyBudgets yearlyBudgets) {
         //asks the user what year does he want to add the entry for
         System.out.println("Which year would you like to view entries for?");
@@ -235,6 +236,7 @@ public class BudgetApp {
         }
     }
 
+    @SuppressWarnings("methodlength")
     public static void removeEntry(Scanner scanner, YearlyBudgets yearlyBudgets) {
         System.out.println("Which year would you like to remove this entry for?");
         int selectedYear = scanner.nextInt();
