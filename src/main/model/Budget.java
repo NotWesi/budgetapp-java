@@ -47,12 +47,13 @@ public class Budget {
 
     // EFFECTS: returns the desired entry from the list of entries
     public boolean checkEntry(String name, double amount) {
+        // loops through the list of entries to see if description and amount match
         for (Entry e : entries) {
             if ((e.getName().equals(name) && (e.getAmount() == amount))) {
-                return true;
+                return true; // returns true if entry present
             }
         }
-        return false;
+        return false; // returns false if entry not present
     }
 
     // EFFECTS: gets the total amount for Budget

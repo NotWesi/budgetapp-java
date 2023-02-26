@@ -78,6 +78,30 @@ class YearlyBudgetTest {
     }
 
     @Test
+    public void testcheckEntry() {
+        // add some entries to the month january
+        budget.addEntry(new Entry("Refund", 175.0));
+
+        // checks if the entry exists
+        assertTrue(budget.checkEntry("Refund", 175.0));
+        assertFalse(budget.checkEntry("Refund", 200.0));
+    }
+
+    @Test
+    public void testmodifyEntry() {
+        // adds an entry to the budget object
+        budget.addEntry(new Entry("Refund", 175.0));
+
+        // modifies the entry description
+        budget.modifyEntryDescription(0, "Tax Refund");
+        assertEquals("Tax Refund", budget.getEntry("Tax Refund", 175.0).getName());
+
+        // modifies the entry amount
+        budget.modifyEntryAmount(0, 250.0);
+        assertEquals(250.0, budget.getEntry("Tax Refund", 250.0).getAmount());
+    }
+
+    @Test
     public void testgetEntries() {
         // add some entries to the month january
         january.getBudget().addEntry(new Entry("Refund", 175.0));
@@ -128,6 +152,17 @@ class YearlyBudgetTest {
         assertEquals(january.getExpenses().getEntry("Rent", 1200.0), entryTwo);
     }
 
+    @Test
+    public void testgetBudgetandgetExpenses() {
+        // add some entries to the month january
+        january.getBudget().addEntry(new Entry("Refund", 175.0));
+        january.getBudget().addEntry(new Entry("Salary", 2000.75));
+        january.getExpenses().addEntry(new Entry("Rent", 1200.0));
+
+        // tests if get budget and expenses methods work properly
+        assertEquals("Salary", january.getBudget().getEntry("Salary", 2000.75).getName());
+        assertEquals(1200.0, january.getExpenses().getEntry("Rent", 1200.0).getAmount());
+    }
     @Test
     public void testGetMonth() {
         // add some entries to the month january
@@ -227,6 +262,8 @@ class YearlyBudgetTest {
             }
         }
         assertEquals(year2021, yearFound);
+
+        assertEquals(1, yearlyBudgets.getYearlyBudgets().size());
     }
 
 
