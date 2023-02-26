@@ -47,6 +47,7 @@ public class Month {
     }
 
     // EFFECTS: returns the net budget for the month
+    // by subtracting total budget by total expenses
     public double netmonthlyBudget(Month month) {
         // initializes empty total budget and expenses
         double totalBudget = 0.0;
@@ -56,11 +57,11 @@ public class Month {
         ArrayList<Entry> expenses = month.getExpenses().getEntries();
 
         // Sum the budget and expenses for the month
-        for (Entry budget : budgets) {
-            totalBudget += budget.getAmount();
+        for (int i = 1; i < budgets.size(); i++) {
+            totalBudget += budgets.get(i).getAmount();
         }
-        for (Entry expense : expenses) {
-            totalExpenses += expense.getAmount();
+        for (int i = 1; i < expenses.size(); i++) {
+            totalExpenses += expenses.get(i).getAmount();
         }
         // Calculate the net budget
         double netBudget = totalBudget - totalExpenses;

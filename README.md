@@ -32,7 +32,7 @@ on the application
 - As a user, I want to be able to log in and save my data for future use
 - As a user, I want to be able to add my income or other sources of money to my budget (list of incoming money)
 - As a user, I want to be able to create an expense and add it to my list of expenses.
-- As a user, I want to be able to visualize my budget or expenses through a pie chart
+- As a user, I want to view my monthly entries organized in a graphical manner.
 - As a user, I want to be able to edit my budget or expenses entries if applicable
 - As a user, I want to be able to add a new yearly budget for a specific year
 - As a user, I want to be able to sort my finances depending on the year and month

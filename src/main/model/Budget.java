@@ -20,13 +20,24 @@ public class Budget {
     }
 
     // EFFECTS: remove an entry
-    public void removeEntry(Entry entry) {
-        entries.remove(entry);
+    public void removeEntry(String name, double amount) {
+        // loops through the list based on its size
+        for (int i = 0; i < entries.size(); i++) {
+            if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
+                entries.remove(i); // removes the entry if it is present in the list
+            }
+        }
     }
 
-    // EFFECTS: returns a specific entry
-    public Entry getEntry(int index) {
-        return entries.get(index);
+    // EFFECTS: gets a specific entry that matches the given description and amount
+    public Entry getEntry(String name, double amount) {
+        // loops through the list based on its size
+        for (int i = 0; i < entries.size(); i++) {
+            if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
+                return entries.get(i); // returns the entry that matches the description and amount
+            }
+        }
+        return null; // returns null if entry not found
     }
 
     // EFFECTS: returns list of entries
@@ -35,9 +46,9 @@ public class Budget {
     }
 
     // EFFECTS: returns the desired entry from the list of entries
-    public boolean checkEntry(Entry entry) {
+    public boolean checkEntry(String name, double amount) {
         for (Entry e : entries) {
-            if (e.equals(entry)) {
+            if ((e.getName().equals(name) && (e.getAmount() == amount))) {
                 return true;
             }
         }

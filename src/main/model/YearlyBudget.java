@@ -29,26 +29,22 @@ public class YearlyBudget {
 
     // EFFECTS: calculates the nud budget from total budget and expenses
     public double getNetBudget() {
-        double totalBudget = 0.0;
-        double totalExpenses = 0.0;
+        double total = 0.0;
 
         //  Go through each month
+        // Adds the net budget for each month to total
         for (Month month : months) {
-            ArrayList<Entry> budgets = month.getBudget().getEntries();
-            ArrayList<Entry> expenses = month.getExpenses().getEntries();
-
-            // Sum the budget and expenses for the month
-            for (Entry budget : budgets) {
-                totalBudget += budget.getAmount();
-            }
-            for (Entry expense : expenses) {
-                totalExpenses += expense.getAmount();
-            }
+            total += month.netmonthlyBudget(month);
         }
-
-        // Calculate the net budget
-        double netBudget = totalBudget - totalExpenses;
-        return netBudget;
+        // Calculate the yearly net budget
+        return total;
     }
+
+    // EFFECTS: return the int year for the object
+    public int getYearInt() {
+        return this.year;
+    }
+
+
 
 }

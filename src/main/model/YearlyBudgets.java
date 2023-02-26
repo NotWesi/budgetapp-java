@@ -6,7 +6,7 @@ public class YearlyBudgets {
     private ArrayList<YearlyBudget> yearlyBudgets;
 
     public YearlyBudgets() {
-        yearlyBudgets = new ArrayList<>();
+        this.yearlyBudgets = new ArrayList<>();
     }
 
     // returns list of yearly budgets
@@ -15,22 +15,24 @@ public class YearlyBudgets {
     }
 
     // MODIFIES: yearlyBudgets
-    // EFFECTS: sets the month info for each month
+    // EFFECTS: sets the year info for each month
     public void setYear(YearlyBudget yearInfo) {
         yearlyBudgets.add(yearInfo);
     }
 
-    // EFFECTS: returns the month object
+    // EFFECTS: returns the yearlyBudget object
     public YearlyBudget getYear(int year) {
         return yearlyBudgets.get(year);
     }
 
-
-    // EFFECTS: checks if year is present in yearlyBudget list
-    public YearlyBudget checkYear(YearlyBudget yearlyBudget) {
-        if (yearlyBudgets.contains(yearlyBudget)) {
-            return yearlyBudget;
-        }
-        return null;
+    // EFFECTS: returns length of the list of yearly objects
+    public int getSize() {
+        return yearlyBudgets.size();
     }
+
+    // EFFECTS: return the yearlyBudget at an index
+    public YearlyBudget getYearlyBudget(int i) {
+        return yearlyBudgets.get(i);
+    }
+
 }
