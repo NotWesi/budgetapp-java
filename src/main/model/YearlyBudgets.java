@@ -9,7 +9,7 @@ public class YearlyBudgets {
         this.yearlyBudgets = new ArrayList<>();
     }
 
-    // returns list of yearly budgets
+    // EFFECTS: returns list of yearly budgets
     public ArrayList<YearlyBudget> getYearlyBudgets() {
         return yearlyBudgets;
     }
@@ -20,6 +20,7 @@ public class YearlyBudgets {
         yearlyBudgets.add(yearInfo);
     }
 
+    // REQUIRES: int year for YearlyBudget
     // EFFECTS: returns the yearlyBudget object
     public YearlyBudget getYear(int year) {
         return yearlyBudgets.get(year);
@@ -30,6 +31,7 @@ public class YearlyBudgets {
         return yearlyBudgets.size();
     }
 
+    // REQUIRES: int i for index of the YearlyBudget
     // EFFECTS: return the yearlyBudget at an index
     public YearlyBudget getYearlyBudget(int i) {
         return yearlyBudgets.get(i);

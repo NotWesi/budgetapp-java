@@ -14,11 +14,15 @@ public class Budget {
 
     // getter and setter methods for entry
 
+    // REQUIRES: entry
+    // MODIFIES: entries
     // EFFECTS: adds a new entry
     public void addEntry(Entry entry) {
         entries.add(entry);
     }
 
+    // REQUIRES: name and amount for entry
+    // MODIFIES: entries
     // EFFECTS: remove an entry
     public void removeEntry(String name, double amount) {
         // loops through the list based on its size
@@ -29,6 +33,7 @@ public class Budget {
         }
     }
 
+    // REQUIRES: name and amount
     // EFFECTS: gets a specific entry that matches the given description and amount
     public Entry getEntry(String name, double amount) {
         // loops through the list based on its size
@@ -45,7 +50,8 @@ public class Budget {
         return entries;
     }
 
-    // EFFECTS: returns the desired entry from the list of entries
+    // REQUIRES: name and amount
+    // EFFECTS: checks if desired entry is in list of entries
     public boolean checkEntry(String name, double amount) {
         // loops through the list of entries to see if description and amount match
         for (Entry e : entries) {
@@ -59,7 +65,7 @@ public class Budget {
     // EFFECTS: gets the total amount for Budget
     public double getTotalAmount() {
         double monthlyAmount = 0.0;
-
+        // loops through the month and adds the amount to total amount
         for (Entry entry : entries) {
             monthlyAmount += entry.getAmount();
         }
@@ -68,6 +74,7 @@ public class Budget {
         return monthlyAmount;
     }
 
+    // REQUIRES: int index and double newAmount
     // MODIFIES: entry
     // EFFECTS: modifies amount of entry in budget to new amount
     public void modifyEntryAmount(int index, double newAmount) {
@@ -75,6 +82,7 @@ public class Budget {
         entry.setAmount(newAmount);
     }
 
+    // REQUIRES: int index and string newName
     // MODIFIES: entry
     // EFFECTS: modifies description of entry in expenses to new amount
     public void modifyEntryDescription(int index, String newName) {
@@ -87,12 +95,13 @@ public class Budget {
         return entries.size();
     }
 
+    // REQUIRES: int i
     // EFFECTS: return the entry at an index
     public Entry getSpecificEntry(int i) {
         return entries.get(i);
     }
 
-    // EFFECTS: returns the index of an entry
+    // EFFECTS: returns the index of an entry if present, -1 otherwise
     public int getEntryIndex(String name, double amount) {
         for (int i = 0; i < entries.size(); i++) {
             if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {

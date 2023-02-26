@@ -165,6 +165,10 @@ class YearlyBudgetTest {
 
     @Test
     public void testgetBudgetandgetExpenses() {
+        // tests get budget and expenses methods
+        assertEquals(budget.getTotalAmount(), year2021.getMonth(1).getBudget().getTotalAmount());
+        assertEquals(expenses.getTotalAmount(), year2021.getMonth(1).getExpenses().getTotalAmount());
+
         // add some entries to the month january
         january.getBudget().addEntry(new Entry("Refund", 175.0));
         january.getBudget().addEntry(new Entry("Salary", 2000.75));
@@ -232,10 +236,14 @@ class YearlyBudgetTest {
 
     @Test
     public void testNetBudget() {
+        // checks net budget returns 0 with any entries
+        assertEquals(0, year2021.getMonth(1).netmonthlyBudget());
+
         // add some entries to the month january
         january.getBudget().addEntry(new Entry("Refund", 175.0));
         january.getBudget().addEntry(new Entry("Salary", 2000.75));
         january.getExpenses().addEntry(new Entry("Rent", 1200.0));
+        january.getExpenses().addEntry(new Entry("Miscellaneous purchases", 200.0));
 
         // add some entries to the month february
         Month february = new Month();
@@ -243,13 +251,15 @@ class YearlyBudgetTest {
         february.getBudget().addEntry(new Entry("Phone Discount", 575.0));
         february.getBudget().addEntry(new Entry("Salary", 2300.75));
         february.getExpenses().addEntry(new Entry("Rent", 1200.0));
+        february.getExpenses().addEntry(new Entry("Miscellaneous purchases", 100.0));
 
         // set the months in the yearly budget
         year2021.setMonth(1, january);
         year2021.setMonth(2, february);
 
         // assert if the net budget is equal to expected value
-        assertEquals(4301.5, year2021.getNetBudget());
+        assertEquals(4001.5, year2021.getNetBudget());
+        assertEquals(1800.75, year2021.getMonth(1).netmonthlyBudget());
 
     }
 
@@ -257,6 +267,7 @@ class YearlyBudgetTest {
     public void testYearlyBudgets() {
         // tests set year method for YearlyBudgets
         yearlyBudgets.setYear(year2021);
+        assertEquals(year2021.getYearInt(),yearlyBudgets.getYearlyBudget(0).getYearInt());
 
         // checks the length of the list if yearBudget was added
         assertEquals(1, yearlyBudgets.getSize());

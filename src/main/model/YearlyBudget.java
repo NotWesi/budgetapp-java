@@ -1,21 +1,22 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class YearlyBudget {
     private int year;
     private ArrayList<Month> months;
 
+    // constructs the YearlyBudget object
     public YearlyBudget(int year) {
         this.year = year;
+        // creates a list of Month objects for the year
         months = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             months.add(new Month());
         }
     }
 
-
+    // REQUIRES: int month and Month monthInfo
     // MODIFIES: months
     // EFFECTS: sets the month info for each month
     public void setMonth(int month, Month monthInfo) {
@@ -27,14 +28,15 @@ public class YearlyBudget {
         return months.get(month - 1);
     }
 
-    // EFFECTS: calculates the nud budget from total budget and expenses
+    // EFFECTS: calculates the net budget from total budget and expenses
     public double getNetBudget() {
+        // initializes a total as a double
         double total = 0.0;
 
         //  Go through each month
         // Adds the net budget for each month to total
         for (Month month : months) {
-            total += month.netmonthlyBudget(month);
+            total += month.netmonthlyBudget();
         }
         // Calculate the yearly net budget
         return total;
