@@ -54,8 +54,8 @@ public class Budget {
     // EFFECTS: checks if desired entry is in list of entries
     public boolean checkEntry(String name, double amount) {
         // loops through the list of entries to see if description and amount match
-        for (Entry e : entries) {
-            if ((e.getName().equals(name) && (e.getAmount() == amount))) {
+        for (int i = 0; i < entries.size(); i++) {
+            if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
                 return true; // returns true if entry present
             }
         }

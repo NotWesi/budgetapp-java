@@ -20,8 +20,8 @@ public class BudgetApp {
             System.out.println("Please select from the following options or exit the program");
             System.out.println("1. Add a new yearly budget");
             System.out.println("2. Add a budget or expense entry to a month");
-            System.out.println("3. View the budget, expense or both entries for a month");
-            System.out.println("4. View net budget for a month");
+            System.out.println("3. View the budget or expenses entries for a month");
+            System.out.println("4. View net budget for a month or year");
             System.out.println("5. Remove an entry for a month");
             System.out.println("6. Edit an entry for a month");
             System.out.println("7. Exit");
@@ -30,6 +30,7 @@ public class BudgetApp {
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
 
+            // Source: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html
             switch (choice) {
                 // the option to create a new yearly budget
                 case 1:
@@ -98,6 +99,8 @@ public class BudgetApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a yearly budget to the list of yearlyBudgets
     public static void addYearlyBudget(Scanner scanner, YearlyBudgets yearlyBudgets) {
         // asks the user to input a year for the budget
         System.out.println("Enter the year for the budget:");
@@ -124,7 +127,7 @@ public class BudgetApp {
             double expensesAmount = scanner.nextDouble();
             scanner.nextLine();
             // stores the monthly expenses amount
-            month.getExpenses().addEntry(new Entry("Monthly expenses", expensesAmount));
+            month.getExpenses().addEntry(new Entry("Monthly Expenses", expensesAmount));
             // sets the month data in the yearBudget to the corresponding month
             yearBudget.setMonth(i, month);
         }
@@ -134,6 +137,8 @@ public class BudgetApp {
         System.out.println("Yearly budget added successfully!");
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds an entry to a specific month of a year
     public static void addEntry(Scanner scanner, YearlyBudgets yearlyBudgets) {
         //asks the user what year does he want to add the entry for
         System.out.println("Which year would you like to add this entry for?");
@@ -168,6 +173,7 @@ public class BudgetApp {
         System.out.println("Entry has been added successfully!");
     }
 
+    // EFFECTS: returns the budget or expenses entries of a specific month
     @SuppressWarnings("methodlength")
     public static void viewEntries(Scanner scanner, YearlyBudgets yearlyBudgets) {
         //asks the user what year does he want to add the entry for
@@ -213,6 +219,7 @@ public class BudgetApp {
         }
     }
 
+    // EFFECTS: calculates the net budget for a year or a month
     public static void viewNetBudget(Scanner scanner, YearlyBudgets yearlyBudgets) {
         // asks user what year to view net Budget for
         System.out.println("Which year would you like to view net budget for?");
@@ -237,7 +244,6 @@ public class BudgetApp {
             netBudget = selectedYearBudget.getNetBudget();
             // prints out net budget
             System.out.println("The net budget for the year " + selectedYear + " is " + netBudget);
-            return;
         } else {
             // asks user for which month they want to view net budget for
             System.out.println("Which month would you like to view net budget for?");
@@ -251,6 +257,8 @@ public class BudgetApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes a specific entry from a month
     @SuppressWarnings("methodlength")
     public static void removeEntry(Scanner scanner, YearlyBudgets yearlyBudgets) {
         // asks user for which year to remove entry for
@@ -274,14 +282,12 @@ public class BudgetApp {
 
         // asks user the description of the entry they want to remove
         System.out.println("Please type the description for the entry");
+        scanner.nextLine(); // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
         String selectedName = scanner.next();
-        // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
-        scanner.nextLine();
         // asks user the amount of the entry
         System.out.println("Please type the amount for the entry");
         double selectedAmount = scanner.nextDouble();
-        // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
-        scanner.nextLine();
+        scanner.nextLine();  // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
 
         if (selectedOption == 1) {
             // checks if entry exists within budget
@@ -323,8 +329,7 @@ public class BudgetApp {
         return null; // returns null if not found
     }
 
-    // REQUIRES: entry description and amount
-    // EFFECTS: modifies the entry description and amount for the specific entry
+    // EFFECTS: modifies the entry description and amount for the specific entry of a month
     @SuppressWarnings("methodlength")
     public static void modifyEntry(Scanner scanner, YearlyBudgets yearlyBudgets) {
         // asks user for which year they want to edit entry for
@@ -348,21 +353,20 @@ public class BudgetApp {
 
         // asks user the description of the entry they want to remove
         System.out.println("Please type the description for the entry");
+        scanner.nextLine();  // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
         String selectedName = scanner.next();
-        // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
         scanner.nextLine();
         // asks user the amount of the entry
         System.out.println("Please type the amount for the entry");
         double selectedAmount = scanner.nextDouble();
-        // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
-        scanner.nextLine();
 
         // asks user the description of the entry they want to add
-        System.out.println("Please type the description for the entry");
+        System.out.println("Please type the description for the new entry");
+        scanner.nextLine();  // consumes the /n char from https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
         String newName = scanner.next();
         scanner.nextLine();
         // asks user the amount of the entry they want to add
-        System.out.println("Please type the amount for the entry");
+        System.out.println("Please type the amount for the new entry");
         double newAmount = scanner.nextDouble();
         scanner.nextLine();
 
