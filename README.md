@@ -29,7 +29,8 @@ to visualize how your finances are allocated.
 The following are summaries of actions that a user is able to perform
 on the application
 
-- As a user, I want to be able to log in and save my data for future use
+- As a user, when I start the application, I want to be given the option to load my budget application from file.
+- As a user, when I select the quit option from the application menu, I want to be reminded to save my budget app to file and have the option to do so or not.
 - As a user, I want to be able to add my income or other sources of money to my budget (list of incoming money)
 - As a user, I want to be able to create an expense and add it to my list of expenses.
 - As a user, I want to view my monthly entries organized in a graphical manner.
