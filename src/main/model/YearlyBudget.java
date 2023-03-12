@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+// represents a yearly budget for a specific year with a list of months
+// each with their unique budget and expenses entries
 public class YearlyBudget {
     private int year;
     private ArrayList<Month> months;
@@ -26,6 +28,11 @@ public class YearlyBudget {
     // EFFECTS: returns the month object
     public Month getMonth(int month) {
         return months.get(month - 1);
+    }
+
+    // EFFECTS: returns the list of months
+    public ArrayList<Month> getMonths() {
+        return months;
     }
 
     // EFFECTS: calculates the net budget from total budget and expenses

@@ -194,6 +194,12 @@ class YearlyBudgetTest {
     }
 
     @Test
+    public void testGetMonths() {
+        // assert if the size of months matches what is expected
+        assertEquals(12, year2021.getMonths().size());
+    }
+
+    @Test
     public void testModifyEntryAmountandDescription() {
         // add some entries to the month january
         january.getBudget().addEntry(new Entry("Refund", 175.0));

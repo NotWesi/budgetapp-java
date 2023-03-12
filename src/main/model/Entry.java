@@ -1,7 +1,8 @@
 package model;
 
-import java.util.Objects;
-
+// represents the information that will be stored in the
+// budget and expenses array lists, composed of two parts
+// name and amount
 public class Entry {
     private String name;
     private double amount;

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// represents an array list of yearlyBudget objects
 public class YearlyBudgets {
     private ArrayList<YearlyBudget> yearlyBudgets;
 
@@ -12,6 +13,11 @@ public class YearlyBudgets {
     // EFFECTS: returns list of yearly budgets
     public ArrayList<YearlyBudget> getYearlyBudgets() {
         return yearlyBudgets;
+    }
+
+    // EFFECTS: adds a yearlyBudget to yearlyBudgets
+    public void addYearlyBudget(YearlyBudget yb) {
+        yearlyBudgets.add(yb);
     }
 
     // MODIFIES: yearlyBudgets

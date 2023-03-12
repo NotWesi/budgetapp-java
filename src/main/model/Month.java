@@ -1,5 +1,6 @@
 package model;
 
+// presents the budget and expenses entries for a month of a year
 public class Month {
     private Budget budget;
     private Expenses expenses;

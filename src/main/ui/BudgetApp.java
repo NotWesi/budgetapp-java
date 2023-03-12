@@ -1,10 +1,15 @@
 package ui;
 
 import model.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// represents the console application of the budget tracking application
 public class BudgetApp {
     // intializes a new scanner for user input and a yearBudget class
     Scanner scanner = new Scanner(System.in);
@@ -16,15 +21,7 @@ public class BudgetApp {
         // main loop that runs the console program
         while (true) {
             // options for the main menu
-            System.out.println("Welcome to the budget tracking application!");
-            System.out.println("Please select from the following options or exit the program");
-            System.out.println("1. Add a new yearly budget");
-            System.out.println("2. Add a budget or expense entry to a month");
-            System.out.println("3. View the budget or expenses entries for a month");
-            System.out.println("4. View net budget for a month or year");
-            System.out.println("5. Remove an entry for a month");
-            System.out.println("6. Edit an entry for a month");
-            System.out.println("7. Exit");
+            mainMenu();
 
             // prompt for the choice
             System.out.print("Enter your choice: ");
@@ -87,15 +84,80 @@ public class BudgetApp {
                     }
                     modifyEntry(scanner, yearlyBudgets);
                     break;
+                case 7:
+                    // checks if there is a year budget already added
+                    if (yearlyBudgets.getYearlyBudgets().size() == 0) {
+                        System.out.println("Please add a year budget first!");
+                        break;
+                    }
+                    saveCurrentData();
+                    break;
+                case 8:
+                    // checks if there is a year budget data to load
+                    YearlyBudgets loadedYearlyBudgets = loadSavedData(scanner);
+
+                    if (loadedYearlyBudgets == null) {
+                        System.out.println("That file does not exist!");
+                        break;
+                    } else {
+                        // sets yearlyBudgets equal to loaded data
+                        yearlyBudgets = loadedYearlyBudgets;
+                    }
+                    break;
 
                 // the sequence for exiting the program
-                case 7:
+                case 9:
                     System.out.println("Exiting the program now...");
                     System.exit(0);
                     break;
                 default:
                     System.out.println("That choice is invalid. Please enter again.");
             }
+        }
+    }
+
+    // EFFECTS: prints out the main menu for the budget app
+    private void mainMenu() {
+        System.out.println("Welcome to the budget tracking application!");
+        System.out.println("Please select from the following options or exit the program");
+        System.out.println("1. Add a new yearly budget");
+        System.out.println("2. Add a budget or expense entry to a month");
+        System.out.println("3. View the budget or expenses entries for a month");
+        System.out.println("4. View net budget for a month or year");
+        System.out.println("5. Remove an entry for a month");
+        System.out.println("6. Edit an entry for a month");
+        System.out.println("7. Save your current progress");
+        System.out.println("8. Load your previous progress");
+        System.out.println("9. Exit");
+    }
+
+    // EFFECTS: saves the current data of the user int the data directory under
+    // desired file name
+    private String saveCurrentData() {
+        // asks the user what filename they want to save their current progress
+        System.out.println("Enter the filename to save data:");
+        String saveFilename = scanner.next();
+        // saves the user session into the data directory
+        JsonWriter jsonWriter = new JsonWriter(saveFilename);
+        JSONObject jsonData = JsonWriter.saveYearlyBudgets(yearlyBudgets);
+        // returns the message after save is completed
+        return jsonWriter.saveData(jsonData);
+    }
+
+    // EFFECTS: checks if the file entered exists; returns the loadedYearlyBudgets
+    // if file exists; null otherwise
+    private static YearlyBudgets loadSavedData(Scanner scanner) {
+        System.out.println("Enter the filename to load data:");
+        String loadFilename = scanner.next();
+        // loads the file from the data directory
+        JsonReader jsonReader = new JsonReader(loadFilename);
+        JSONObject jsonYearlyBudgets = jsonReader.loadData(loadFilename);
+        // if data does not exist, returns null
+        if (jsonYearlyBudgets == null) {
+            return null;
+        } else {
+            // returns the yearlyBudgets object that matches the saved data
+            return loadYearlyBudgets(jsonYearlyBudgets);
         }
     }
 
@@ -399,6 +461,60 @@ public class BudgetApp {
                 System.out.println("The entry does not exist! ");
             }
         }
+    }
+
+    // EFFECTS: converts the loaded data from JSONReader into a yearlyBudgets object
+    @SuppressWarnings("methodlength")
+    public static YearlyBudgets loadYearlyBudgets(JSONObject jsonYearlyBudgets) {
+        YearlyBudgets yearlyBudgets = new YearlyBudgets();
+
+        // gets the jsonYearlyBudget Array from jsonYearlyBudgets
+        JSONArray jsonYearlyBudgetArray = jsonYearlyBudgets.getJSONArray("yearlyBudgets");
+
+        // loops through the yearlyBudgets array to get
+        for (int i = 0; i < jsonYearlyBudgetArray.length(); i++) {
+            JSONObject jsonYearlyBudget = jsonYearlyBudgetArray.getJSONObject(i);
+
+            int year = jsonYearlyBudget.getInt("year");
+            JSONArray jsonMonthsArray = jsonYearlyBudget.getJSONArray("months");
+
+            // creates a new yearlyBudget object with the relevant year
+            YearlyBudget yearlyBudget = new YearlyBudget(year);
+
+            // loops through the months array and retrieves each
+            for (int j = 0; j < jsonMonthsArray.length(); j++) {
+                Month month = new Month();
+                JSONObject jsonMonth = jsonMonthsArray.getJSONObject(j);
+                JSONArray jsonBudgetArray = jsonMonth.getJSONArray("Budget");
+                JSONArray jsonExpensesArray = jsonMonth.getJSONArray("Expenses");
+
+
+                // loops through the budgets array and adds each entry to the budgets array
+                // of each month
+                for (int k = 0; k < jsonBudgetArray.length(); k++) {
+                    JSONObject jsonBudget = jsonBudgetArray.getJSONObject(k);
+                    String name = jsonBudget.getString("name");
+                    Double amount = jsonBudget.getDouble("amount");
+                    month.getBudget().addEntry(new Entry(name, amount));
+                }
+
+                // loops through the expenses array and adds each entry to the expenses array
+                // of each month
+                for (int m = 0; m < jsonExpensesArray.length(); m++) {
+                    JSONObject jsonExpenses = jsonExpensesArray.getJSONObject(m);
+                    String name = jsonExpenses.getString("name");
+                    Double amount = jsonExpenses.getDouble("amount");
+                    month.getExpenses().addEntry(new Entry(name, amount));
+                }
+
+                // adds the month info to its respective month
+                yearlyBudget.setMonth(j + 1, month);
+            }
+            // adds the yearlyBudget to the list of yearlyBudgets
+            yearlyBudgets.addYearlyBudget(yearlyBudget);
+        }
+        // returns the yearlyBudgets list
+        return yearlyBudgets;
     }
 }
 
