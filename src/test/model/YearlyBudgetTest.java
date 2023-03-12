@@ -16,6 +16,7 @@ class YearlyBudgetTest {
     public Entry entryTwo;
     public Month january;
     public YearlyBudget year2021;
+    public YearlyBudget year2022;
     public YearlyBudgets yearlyBudgets;
     public int year;
 
@@ -294,5 +295,11 @@ class YearlyBudgetTest {
         assertEquals(1, yearlyBudgets.getYearlyBudgets().size());
     }
 
+    @Test
+    void testAddYearlyBudgets() {
+        // tests addYearlyBudget method
+        yearlyBudgets.addYearlyBudget(year2022);
+        assertEquals(1, yearlyBudgets.getSize());
+    }
 
 }

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ui.BudgetApp.loadYearlyBudgets;
 
 public class JsonTest {
     // below are relevant objects for the following tests
@@ -87,7 +86,7 @@ public class JsonTest {
         // asserts if testJsonData2 is not null
         assertTrue(testJsonData2 != null);
         // loads the data back into a yearlyBudgets array
-        YearlyBudgets loadedYearlyBudgets = loadYearlyBudgets(testJsonData2);
+        YearlyBudgets loadedYearlyBudgets = testJsonReader.loadYearlyBudgets(testJsonData2);
         // checks the length of the loadedYearlyBudgets and yearlyBudgets array
         assertEquals(yearlyBudgets.getSize(), loadedYearlyBudgets.getSize());
         // checks if the names match the expected and actual for different entries

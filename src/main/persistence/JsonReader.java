@@ -20,6 +20,60 @@ public class JsonReader {
         return source;
     }
 
+    // EFFECTS: converts the loaded data from JSONReader into a yearlyBudgets object
+    @SuppressWarnings("methodlength")
+    public static YearlyBudgets loadYearlyBudgets(JSONObject jsonYearlyBudgets) {
+        YearlyBudgets yearlyBudgets = new YearlyBudgets();
+
+        // gets the jsonYearlyBudget Array from jsonYearlyBudgets
+        JSONArray jsonYearlyBudgetArray = jsonYearlyBudgets.getJSONArray("yearlyBudgets");
+
+        // loops through the yearlyBudgets array to get
+        for (int i = 0; i < jsonYearlyBudgetArray.length(); i++) {
+            JSONObject jsonYearlyBudget = jsonYearlyBudgetArray.getJSONObject(i);
+
+            int year = jsonYearlyBudget.getInt("year");
+            JSONArray jsonMonthsArray = jsonYearlyBudget.getJSONArray("months");
+
+            // creates a new yearlyBudget object with the relevant year
+            YearlyBudget yearlyBudget = new YearlyBudget(year);
+
+            // loops through the months array and retrieves each
+            for (int j = 0; j < jsonMonthsArray.length(); j++) {
+                Month month = new Month();
+                JSONObject jsonMonth = jsonMonthsArray.getJSONObject(j);
+                JSONArray jsonBudgetArray = jsonMonth.getJSONArray("Budget");
+                JSONArray jsonExpensesArray = jsonMonth.getJSONArray("Expenses");
+
+
+                // loops through the budgets array and adds each entry to the budgets array
+                // of each month
+                for (int k = 0; k < jsonBudgetArray.length(); k++) {
+                    JSONObject jsonBudget = jsonBudgetArray.getJSONObject(k);
+                    String name = jsonBudget.getString("name");
+                    Double amount = jsonBudget.getDouble("amount");
+                    month.getBudget().addEntry(new Entry(name, amount));
+                }
+
+                // loops through the expenses array and adds each entry to the expenses array
+                // of each month
+                for (int m = 0; m < jsonExpensesArray.length(); m++) {
+                    JSONObject jsonExpenses = jsonExpensesArray.getJSONObject(m);
+                    String name = jsonExpenses.getString("name");
+                    Double amount = jsonExpenses.getDouble("amount");
+                    month.getExpenses().addEntry(new Entry(name, amount));
+                }
+
+                // adds the month info to its respective month
+                yearlyBudget.setMonth(j + 1, month);
+            }
+            // adds the yearlyBudget to the list of yearlyBudgets
+            yearlyBudgets.addYearlyBudget(yearlyBudget);
+        }
+        // returns the yearlyBudgets list
+        return yearlyBudgets;
+    }
+
     // REQUIRES: source to exist in data directory
     // EFFECTS: loads the file from the data directory and converts all the
     // text into a JSONObject with the same format as it was saved in
