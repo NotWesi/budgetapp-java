@@ -91,6 +91,7 @@ public class BudgetApp {
                         break;
                     }
                     saveCurrentData();
+                    System.out.println("The file has been saved successfully!");
                     break;
                 case 8:
                     // checks if there is a year budget data to load
@@ -102,6 +103,7 @@ public class BudgetApp {
                     } else {
                         // sets yearlyBudgets equal to loaded data
                         yearlyBudgets = loadedYearlyBudgets;
+                        System.out.println("The file has been loaded successfully!");
                     }
                     break;
 
