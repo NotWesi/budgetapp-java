@@ -254,7 +254,81 @@ public class Test {
 
 
     private void modifyEntry() {
-        // Modify entry code here
+        // creates the frame and title for view entries
+        JFrame viewEntriesFrame = new JFrame(("View Entries"));
+        viewEntriesFrame.setSize(400, 300);
+        viewEntriesFrame.setLayout(new BorderLayout());
+
+        // create month and year buttons
+        JRadioButton monthButton = new JRadioButton("Month");
+        JRadioButton yearButton = new JRadioButton("Year");
+
+        // create button group
+        ButtonGroup group = new ButtonGroup();
+        group.add(monthButton);
+        group.add(yearButton);
+
+        // create text fields for month and year
+        JTextField monthTextField = new JTextField(10);
+        JTextField yearTextField = new JTextField(10);
+
+        // create labels for month and year text fields
+        JLabel monthLabel = new JLabel("Month:");
+        JLabel yearLabel = new JLabel("Year:");
+
+        // create panel for month text field and label
+        JPanel monthPanel = new JPanel();
+        monthPanel.add(monthLabel);
+        monthPanel.add(monthTextField);
+        monthPanel.add(yearLabel);
+        monthPanel.add(yearTextField);
+
+        // create panel for year text field and label
+        JPanel yearPanel = new JPanel();
+        yearPanel.add(yearLabel);
+        yearPanel.add(yearTextField);
+
+        // create panel for buttons and text fields
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        buttonPanel.add(monthButton);
+        buttonPanel.add(monthPanel);
+        buttonPanel.add(yearButton);
+        buttonPanel.add(yearPanel);
+
+        // create panel for message and button
+        JPanel messagePanel = new JPanel();
+        messagePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // adds a message label with the message label
+        JLabel messageLabel = new JLabel("Please select from the following options");
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 12));
+
+        // implements a ok button
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                return;
+            }
+        });
+        messagePanel.add(messageLabel);
+        messagePanel.add(okButton);
+
+        // create main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(messagePanel, BorderLayout.SOUTH);
+
+        // add main panel to frame
+        viewEntriesFrame.add(mainPanel);
+
+        // set frame properties
+        viewEntriesFrame.pack();
+        viewEntriesFrame.setVisible(true);
+
     }
 
     private void deleteEntry() {
