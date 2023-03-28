@@ -1,14 +1,18 @@
-package ui;
+package model;
 
-import model.*;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BudgetGUI {
+public class Test {
+
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JTextArea display;
@@ -23,7 +27,7 @@ public class BudgetGUI {
     YearlyBudgets yearlyBudgets;
 
 
-    public BudgetGUI() {
+    public Test() {
         prepareGUI();
     }
 
@@ -63,17 +67,17 @@ public class BudgetGUI {
             int x = random.nextInt(backgroundSize.width - resizedCoinIcon.getIconWidth());
             int y = random.nextInt(backgroundSize.height - resizedCoinIcon.getIconHeight());
             Point coinPos = new Point(x, y);
-            boolean overlap = false;
+            boolean Overlap = false;
             // confirms if coins has overlap or not
             for (Point p : coinPositions) {
                 if (coinPos.distance(p) < resizedCoinIcon.getIconWidth()) {
-                    overlap = true;
+                    Overlap = true;
                     // breaks the loop if there is overlap
                     break;
                 }
             }
 
-            if (overlap) {
+            if (Overlap) {
                 coinPositions.add(coinPos);
             }
         }
@@ -189,23 +193,6 @@ public class BudgetGUI {
         JTextField amountField = new JTextField();
         JTextField budgetOrExpenseField = new JTextField();
 
-        addEntryMenu(addEntryPanel, yearField, monthField, descriptionField, amountField, budgetOrExpenseField);
-
-        // create a button to add the entry
-        JButton addButton = new JButton("Add");
-        addButton.addActionListener(e -> addEntryHelper(addEntryPanel, yearField, monthField, descriptionField, amountField, budgetOrExpenseField));
-
-        // adds button to panel
-        addEntryPanel.add(addButton);
-
-        // Add the panel to the frame and show the window
-        addEntryFrame.add(addEntryPanel);
-        addEntryFrame.setVisible(true);
-    }
-
-    // EFFECTS: creates the menu with fields to enter year, month, description
-    // amount and type of entry
-    private void addEntryMenu(JPanel addEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField, JTextField budgetOrExpenseField) {
         // Add the input fields to the panel
         JLabel yearLabel = new JLabel("Year: ");
         yearLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -227,156 +214,47 @@ public class BudgetGUI {
         typeLabel.setHorizontalAlignment(JLabel.CENTER);
         addEntryPanel.add(typeLabel);
         addEntryPanel.add(budgetOrExpenseField);
-    }
 
+        // create a button to add the entry
+        JButton addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // converts the relevant input values into their respective types
+                int year = Integer.parseInt(yearField.getText());
+                int month = Integer.parseInt(monthField.getText());
+                YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
+                if (selectedYearBudget == null) {
+                    JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Budget budget = selectedYearBudget.getMonth(month).getBudget();
+                Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
+                Entry entry = new Entry(descriptionField.getText(), Double.parseDouble(amountField.getText()));
 
-    // EFFECTS: adds the entry to the specific month of the year selected
-    private void addEntryHelper(JPanel addEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField, JTextField budgetOrExpenseField) {
-        // converts the relevant input values into their respective types
-        int year = Integer.parseInt(yearField.getText());
-        int month = Integer.parseInt(monthField.getText());
-        YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
-        if (selectedYearBudget == null) {
-            JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Budget budget = selectedYearBudget.getMonth(month).getBudget();
-        Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
-        Entry entry = new Entry(descriptionField.getText(), Double.parseDouble(amountField.getText()));
-
-        // add entry to appropriate list
-        if (budgetOrExpenseField.getText() == "budget") {
-            budget.addEntry(entry);
-        } else {
-            expenses.addEntry(entry);
-        }
-        // update display
-        updateDisplay("Your entry had been added successfully");
-    }
-
-
-    // EFFECTS: modifies a specific entry of a month of a year
-    private void modifyEntry() {
-        // Create a new JFrame for the add entry window
-        JFrame modifyEntryFrame = new JFrame("Add Entry");
-        modifyEntryFrame.setSize(400, 300);
-        modifyEntryFrame.setLocationRelativeTo(null); // Center the window
-
-        // Create a panel for the add entry form
-        JPanel modifyEntryPanel = new JPanel(new GridLayout(8, 2));
-
-        // Create the input fields
-        JTextField yearField = new JTextField();
-        JTextField monthField = new JTextField();
-        JTextField descriptionField = new JTextField();
-        JTextField amountField = new JTextField();
-        JTextField newDescriptionField = new JTextField();
-        JTextField newAmountField = new JTextField();
-        JTextField budgetOrExpenseField = new JTextField();
-
-        // creates a panel menu to type the details for the entry
-        modifyEntryMenu(modifyEntryPanel, yearField, monthField, descriptionField,
-                amountField, newDescriptionField, newAmountField, budgetOrExpenseField);
-
-        // creates the modify button
-        JButton modifyButton = new JButton("Modify");
-        modifyButton.addActionListener(e -> modifyEntryHelper(modifyEntryPanel, yearField, monthField, descriptionField, amountField,
-                newDescriptionField, newAmountField, budgetOrExpenseField));
+                // add entry to appropriate list
+                if (budgetOrExpenseField.getText() == "budget") {
+                    budget.addEntry(entry);
+                } else {
+                    expenses.addEntry(entry);
+                }
+                // update display
+                updateDisplay("Your entry had been added successfully");
+            }
+        });
 
         // adds button to panel
-        modifyEntryPanel.add(modifyButton);
+        addEntryPanel.add(addButton);
 
         // Add the panel to the frame and show the window
-        modifyEntryFrame.add(modifyEntryPanel);
-        modifyEntryFrame.setVisible(true);
-
+        addEntryFrame.add(addEntryPanel);
+        addEntryFrame.setVisible(true);
     }
 
-    // EFFECTS: creates the menu with fields to enter year, month, description
-    // amount and type of entry
-    private void modifyEntryMenu(JPanel modifyEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField,
-                                 JTextField newDescriptionField, JTextField newAmountField, JTextField budgetOrExpenseField) {
-        // Add the input fields to the panel
-        JLabel yearLabel = new JLabel("Year: ");
-        yearLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(yearLabel);
-        modifyEntryPanel.add(yearField);
-        JLabel monthLabel = new JLabel("Month (1-12): ");
-        monthLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(monthLabel);
-        modifyEntryPanel.add(monthField);
-        JLabel descriptionLabel = new JLabel("Enter the description: ");
-        descriptionLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(descriptionLabel);
-        modifyEntryPanel.add(descriptionField);
-        JLabel amountLabel = new JLabel("Enter the amount: ");
-        amountLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(amountLabel);
-        modifyEntryPanel.add(amountField);
-        JLabel newDescriptionLabel = new JLabel("Enter the new description: ");
-        newDescriptionLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(newDescriptionLabel);
-        modifyEntryPanel.add(newDescriptionField);
-        JLabel newAmountLabel = new JLabel("Enter the new amount: ");
-        newAmountLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(newAmountLabel);
-        modifyEntryPanel.add(newAmountField);
-        JLabel typeLabel = new JLabel("Type budget or expense: ");
-        typeLabel.setHorizontalAlignment(JLabel.CENTER);
-        modifyEntryPanel.add(typeLabel);
-        modifyEntryPanel.add(budgetOrExpenseField);
-    }
 
-    // EFFECTS: modifies the entry to the specific month of the year selected
-    // converts the relevant input values into their respective types
-    private void modifyEntryHelper(JPanel modifyEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField,
-                                   JTextField newDescriptionField, JTextField newAmountField, JTextField budgetOrExpenseField) {
-        // converts the fields into their respective strings and doubles
-        int year = Integer.parseInt(yearField.getText());
-        int month = Integer.parseInt(monthField.getText());
-        String description = descriptionField.getText();
-        Double amount = Double.parseDouble(amountField.getText());
-        String newDescription = newDescriptionField.getText();
-        Double newAmount = Double.parseDouble(newAmountField.getText());
-        // find the yearly budget depending on the year
-        YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
-        // checks if the yearly budget exists
-        if (selectedYearBudget == null) {
-            JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Budget budget = selectedYearBudget.getMonth(month).getBudget();
-        Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
-        Entry entry = new Entry(descriptionField.getText(), Double.parseDouble(amountField.getText()));
 
-        // checks if the entry can be modified
-        if (budgetOrExpenseField.getText() == "budget") {
-            // checks if the budget entries exists
-            boolean budgetCheck = budget.checkEntry(description, amount);
-            // if entry exists, modify the entry in budget
-            if (budgetCheck) {
-                int i = budget.getEntryIndex(description, amount);
-                budget.modifyEntryAmount(i, newAmount);
-                budget.modifyEntryDescription(i, newDescription);
-                updateDisplay("The entry was edited! ");
-            } else {
-                // entry does not exist, error message and returns
-                updateDisplay("The entry does not exist! ");
-            }
-        } else {
-            // checks if the expenses entry exists
-            boolean expensesCheck = expenses.checkEntry(description, amount);
-            // if entry exists, modify the entry in expenses
-            if (expensesCheck) {
-                int i = expenses.getEntryIndex(description, amount);
-                expenses.modifyEntryAmount(i, newAmount);
-                expenses.modifyEntryDescription(i, newDescription);
-                updateDisplay("The entry was edited! ");
-            } else {
-                // entry does not exist, error message and returns
-                updateDisplay("The entry does not exist! ");
-            }
-        }
+    private void modifyEntry() {
+        // Modify entry code here
     }
 
     private void deleteEntry() {
@@ -432,7 +310,7 @@ public class BudgetGUI {
     }
 
     public static void main(String[] args) {
-        BudgetGUI budgetGUI = new BudgetGUI();
+        Test budgetGUI = new Test();
     }
 
     // EFFECTS: creates a back button
@@ -461,4 +339,3 @@ public class BudgetGUI {
         return null; // returns null if not found
     }
 }
-
