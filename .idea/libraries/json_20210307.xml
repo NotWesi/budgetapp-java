@@ -2,6 +2,7 @@
   <library name="json-20210307">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/json-20210307.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xchart-3.8.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
