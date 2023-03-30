@@ -173,7 +173,17 @@ public class BudgetGUI {
     // EFFECTS: adds a new yearly budget for the year
     private void addYearlyBudget() {
         // prompts user for budget year
-        int year = Integer.parseInt(JOptionPane.showInputDialog("Enter the year: "));
+        String yearStr = JOptionPane.showInputDialog("Enter the year: ");
+
+        // checks if user inputted an int value or not
+        if (!isStringInt(yearStr)) {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "The input for yearly budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int year = Integer.parseInt(yearStr);
 
         // creates a new yearly budget with the respective year
         YearlyBudget yearlyBudget = new YearlyBudget(year);
@@ -250,6 +260,19 @@ public class BudgetGUI {
     private void addEntryHelper(JPanel addEntryPanel, JTextField yearField,
                                 JTextField monthField, JTextField descriptionField,
                                 JTextField amountField, JTextField budgetOrExpenseField) {
+        // checks if the inputs are valid
+        if (checkInputValid(yearField, monthField, descriptionField, amountField)) {
+            return;
+        }
+
+        // checks if the budget or expense entry is valid
+        if (!isStringInt(budgetOrExpenseField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "The input for choosing expenses or budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // converts the relevant input values into their respective types
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
@@ -264,16 +287,45 @@ public class BudgetGUI {
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
         Entry entry = new Entry(descriptionField.getText(), Double.parseDouble(amountField.getText()));
 
-        if (isStringInt(budgetOrExpenseField.getText())) {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "The input for choosing expenses or budget is invalid. Enter an integer.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
         addBudgetOrExpenseEntry(budget, expenses, entry, type);
+    }
+
+    // EFFECTS: checks if the text fields have valid inputs
+    private boolean checkInputValid(JTextField yearField, JTextField monthField,
+                                    JTextField descriptionField, JTextField amountField) {
+        // checks if user inputted an int value or not
+        if (!isStringInt(yearField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for yearly budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        // stores value of month as int
+        int monthVal = Integer.parseInt(monthField.getText());
+        // checks if user inputted an int value or not
+        if (!isStringInt(monthField.getText()) || monthVal < 1 || monthVal > 12) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for month is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        // checks if user inputted an int value or not
+        if (!isDouble(amountField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for the amount is invalid. Enter a double.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        // checks if user inputted an int value or not
+        if (isStringInt(descriptionField.getText()) || isDouble(descriptionField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for description is invalid. Enter an string.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        return false;
     }
 
     // EFFECTS: adds a budget or expense entry
@@ -382,6 +434,15 @@ public class BudgetGUI {
                                    JTextField descriptionField, JTextField amountField,
                                    JTextField newDescriptionField, JTextField newAmountField,
                                    JTextField budgetOrExpenseField) {
+        // checks if the inputs are valid
+        if (checkInputValid(yearField, monthField, descriptionField, amountField)) {
+            return;
+        }
+        // checks if the new inputs and budget or expense entry are valid
+        if (checkNewInputsValid(newDescriptionField, newAmountField, budgetOrExpenseField)) {
+            return;
+        }
+
         // converts the fields into their respective strings and doubles
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
@@ -400,17 +461,38 @@ public class BudgetGUI {
         }
         Budget budget = selectedYearBudget.getMonth(month).getBudget();
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
-        // checks if the string passed is an integer
-        if (isStringInt(budgetOrExpenseField.getText())) {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "The input for choosing expenses or budget is invalid. Enter an integer.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
         modifyBudgetOrExpense(description, amount, newDescription, newAmount, budget, expenses, type);
+    }
+
+    // EFFECTS: checks if the new description and amount are valid inputs
+    private boolean checkNewInputsValid(JTextField newDescriptionField, JTextField newAmountField,
+                                        JTextField budgetOrExpenseField) {
+        // checks if the new description and amount inputs are valid
+        // checks if user inputted an int value or not
+        if (!isDouble(newAmountField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for the new amount is invalid. Enter a double.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        // checks if user inputted an int value or not
+        if (isStringInt(newDescriptionField.getText()) || isDouble(newDescriptionField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel, "The input for the new description is invalid. Enter an string.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+
+        // checks if the string passed is an integer
+        if (!isStringInt(budgetOrExpenseField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "The input for choosing expenses or budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
     }
 
     // EFFECTS: modifies the entry if it is a budget entry or expenses entry
@@ -491,6 +573,11 @@ public class BudgetGUI {
     private void deleteEntryHelper(JPanel deleteEntryPanel, JTextField yearField, JTextField monthField,
                                    JTextField descriptionField, JTextField amountField,
                                    JTextField budgetOrExpenseField) {
+        // checks if the inputs are valid
+        if (checkInputValid(yearField, monthField, descriptionField, amountField)) {
+            return;
+        }
+
         // converts the relevant input values into their respective types
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
@@ -520,7 +607,6 @@ public class BudgetGUI {
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
         String selectedName = descriptionField.getText();
         Double selectedAmount = Double.parseDouble(amountField.getText());
-
 
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
@@ -599,7 +685,7 @@ public class BudgetGUI {
         monthButton.addActionListener(e -> {
             // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
             String[] monthAndYear1 = monthAndYearInput("Select a month and year");
-            if (monthAndYear1.length != 0) {
+            if (monthAndYear1[1].length() > 1) {
                 updateDisplay("Your input was successful!");
             }
             monthAndYear[0] = monthAndYear1;
@@ -684,28 +770,32 @@ public class BudgetGUI {
     // amount
     private Object[][] getData(int type, Month selectedMonth) {
         Object[][] data;
+        int count = 0;
+        double total = 0;
         // creates a table with the data
         if (type == 1) {
-            Budget budget = selectedMonth.getBudget();
-            data = new Object[budget.getSize()][2];
+            data = new Object[selectedMonth.getBudget().getSize() + 1][2];
             // loops through the entries and creates a table of each entry
-            for (int i = 0; i < budget.getSize(); i++) {
-                Entry entry = budget.getSpecificEntry(i);
+            for (int i = 0; i < selectedMonth.getBudget().getSize(); i++) {
                 // adds the description and amount of each entry
-                data[i][0] = entry.getName();
-                data[i][1] = entry.getAmount();
+                data[i][0] = selectedMonth.getBudget().getSpecificEntry(i).getName();
+                data[i][1] = selectedMonth.getBudget().getSpecificEntry(i).getAmount();
+                count++;
+                total += selectedMonth.getBudget().getSpecificEntry(i).getAmount();
             }
         } else {
-            Expenses expenses = selectedMonth.getExpenses();
-            data = new Object[expenses.getSize()][2];
+            data = new Object[selectedMonth.getExpenses().getSize() + 1][2];
 
-            for (int j = 0; j < expenses.getSize(); j++) {
-                Entry entry = expenses.getSpecificEntry(j);
+            for (int j = 0; j < selectedMonth.getExpenses().getSize(); j++) {
                 // adds the description and amount of each entry
-                data[j][0] = entry.getName();
-                data[j][1] = entry.getAmount();
+                data[j][0] = selectedMonth.getExpenses().getSpecificEntry(j).getName();
+                data[j][1] = selectedMonth.getExpenses().getSpecificEntry(j).getAmount();
+                count++;
+                total += selectedMonth.getExpenses().getSpecificEntry(j).getAmount();
             }
         }
+        data[count][0] = "Total";
+        data[count][1] = total;
         return data;
     }
 
@@ -744,7 +834,7 @@ public class BudgetGUI {
         monthButton.addActionListener(e -> {
             // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
             String[] monthAndYear1 = monthAndYearInput("Select a month and year");
-            if (monthAndYear1[0].length() > 1) {
+            if (monthAndYear1[1].length() > 1) {
                 updateDisplay("The input is valid");
             }
             monthAndYear[0] = monthAndYear1;
@@ -942,13 +1032,14 @@ public class BudgetGUI {
         // creates a pie chart from the data passed
         // Refer to the top answer of this stackoverflow page: https://stackoverflow.com/questions/13662984/creating-pie-charts-programmatically
         PieChart chart =
-                new PieChartBuilder().width(800).height(600).title(title).theme(Styler.ChartTheme.GGPlot2).build();
+                new PieChartBuilder().width(1000).height(1000).title(title).theme(Styler.ChartTheme.GGPlot2).build();
 
         // Customize Chart
         chart.getStyler().setLegendVisible(false);
-        chart.getStyler().setPlotContentSize(.7);
+        // Set the legend position to outside the chart segments
+        chart.getStyler().setPlotContentSize(.5);
         chart.getStyler().setStartAngleInDegrees(90);
-        chart.getStyler().setLegendPosition(PieStyler.LegendPosition.InsideNW);
+        chart.getStyler().setLegendPosition(PieStyler.LegendPosition.OutsideE);
 
         // Used https://sentry.io/answers/iterate-hashmap-java/#:~:text=Perhaps%20the%20most%20straightforward%20approach,or%20entries%20in%20the%20HashMap.
         // for reference
@@ -989,6 +1080,17 @@ public class BudgetGUI {
 
     private void viewEntriesYearHelper(String year, int type) {
         // stub
+    }
+
+    // EFFECTS: checks if a string passed is a double
+    // reference: https://stackoverflow.com/questions/3133770/how-to-find-out-if-the-value-contained-in-a-string-is-double-or-not
+    boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     // REQUIRES: budget have at least one entry
@@ -1058,6 +1160,7 @@ public class BudgetGUI {
             return;
         }
         saveCurrentData();
+        // checks if file has been saved
         updateDisplay("The file has been saved successfully!");
     }
 
@@ -1128,7 +1231,8 @@ public class BudgetGUI {
         YearlyBudgets loadedYearlyBudgets = loadPreviousData();
 
         if (loadedYearlyBudgets == null) {
-            updateDisplay("That file does not exist!");
+            JOptionPane.showMessageDialog(mainPanel, "That file does not exist. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
             // sets yearlyBudgets equal to loaded data
@@ -1189,10 +1293,6 @@ public class BudgetGUI {
 
         // make the message visible
         msgFrame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        BudgetGUI budgetGUI = new BudgetGUI();
     }
 
     // EFFECTS: creates a back button

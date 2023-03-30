@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
+// this is just a test application that was used for debugging and choosing between features
 public class Test {
 
     private JFrame mainFrame;

@@ -54,7 +54,9 @@ a description with it's corresponding amount
 - You can locate my visual component by clicking the "Illustrate Entries" button in the main menu. You will be asked to input specific parameters for year, month and type of entries (budget or expenses).
 If any of the parameters are incorrect (yearly budget doesn't exist or month is out of bounds), it will ask you to input again. You can view a
 pie chart of a specific set of budget or expense entries for a month. However, this works best when you have at least two entries added to your month's 
-budget or expense entries.
+budget or expense entries due to the labels getting cut off sometimes which I was not able to fix this for the meantime. There is also a visual panel
+that pops up when you start the application that displays an image of a coin and the title of the app. You can press continue to go to the main
+menu.
 
 
 - You can save the state of my application by clicking on the "Save Progress" button in the main menu and typing in a file name for the .json
@@ -62,4 +64,4 @@ file to be saved.
 
 
 - You can reload the state of my application by clicking on the "Load Progress" button in the main menu and typing in a file name for the .json
-  file to be loaded.
+  file to be loaded if it exists.
