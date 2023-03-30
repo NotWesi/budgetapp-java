@@ -336,8 +336,112 @@ public class Test {
     }
 
 
+    // EFFECTS: asks the user if they want to view the entries for a month or year
+    // and if they want to view budget or expenses in the form of a pie chart
     private void viewEntries() {
-        // View entries code here
+        // initialize the variables
+        final String[][] monthAndYear = new String[1][1];
+        final String[] year = new String[1];
+
+        // creates the frame and title for view entries
+        JFrame viewEntriesFrame = new JFrame(("View Entries"));
+        viewEntriesFrame.setSize(400, 300);
+        viewEntriesFrame.setLayout(new BorderLayout());
+
+        // creates the panel
+        JPanel viewEntriesPanel = new JPanel();
+        viewEntriesPanel.setLayout(new BoxLayout(viewEntriesPanel, BoxLayout.Y_AXIS));
+
+        // adds a message on the top asking user to select from the following options
+        JLabel messageLabel = new JLabel("Please select between year/month and budget/expenses");
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        // this is implemented using the following documentation:
+        // https://docs.oracle.com/javase/tutorial/uiswing/components/buttongroup.html
+        ButtonGroup timePeriodGroup = new ButtonGroup();
+        JRadioButton monthButton = new JRadioButton("Month");
+        JRadioButton yearButton = new JRadioButton("Year");
+
+        // adds the buttons to the button group
+        timePeriodGroup.add(monthButton);
+        timePeriodGroup.add(yearButton);
+
+        // adds the action listeners for each button
+        monthButton.addActionListener(e -> {
+            // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
+            String[] monthAndYear1 = monthAndYearInput("Select a month and year");
+            if (monthAndYear1[0].length() > 0) {
+                updateDisplay("The input is valid");
+            }
+            monthAndYear[0] = monthAndYear1;
+        });
+
+        // add the action listener for the year button
+        yearButton.addActionListener(e -> {
+            // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
+            year[0] = yearInput("Select a year");
+            if (year[0] == "") {
+                updateDisplay("Test: this is working");
+            }
+        });
+
+        // Follows same format for budget and expenses
+        ButtonGroup typeEntryGroup = new ButtonGroup();
+        JRadioButton budgetButton = new JRadioButton("Budget");
+        JRadioButton expensesButton = new JRadioButton("Expenses");
+        typeEntryGroup.add(budgetButton);
+        typeEntryGroup.add(expensesButton);
+
+        // adds the buttons for view entries
+        JButton viewButton = new JButton("View Entries");
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (monthButton.isSelected() && budgetButton.isSelected()) {
+                    viewEntriesMonthHelper(monthAndYear[0], 1); // retrieve selected
+                    updateDisplay("Option 1");
+                } else if (monthButton.isSelected() && expensesButton.isSelected()) {
+                    viewEntriesMonthHelper(monthAndYear[0], 2);
+                    updateDisplay("Option 2");
+                } else if (yearButton.isSelected() && budgetButton.isSelected()) {
+                    viewEntriesYearHelper(year[0], 1);
+                    updateDisplay("Option 3");
+                } else {
+                    viewEntriesYearHelper(year[0], 2);
+                    updateDisplay("Option 4");
+                }
+            }
+        });
+
+        // adds the buttons to the panel
+        viewEntriesPanel.add(messageLabel);
+        viewEntriesPanel.add(monthButton);
+        viewEntriesPanel.add(yearButton);
+        viewEntriesPanel.add(budgetButton);
+        viewEntriesPanel.add(expensesButton);
+        viewEntriesPanel.add(viewButton);
+
+        // adds the panel to the frame
+        viewEntriesFrame.add(viewEntriesPanel);
+        viewEntriesFrame.setVisible(true);
+    }
+
+    private String[] monthAndYearInput(String select_a_month_and_year) {
+        String[] monthAndYear = new String[2];
+        return monthAndYear;
+    }
+
+    private String yearInput(String select_a_year) {
+        return "";
+        // stub
+    }
+
+    private void viewEntriesYearHelper(String s, int i) {
+    }
+
+    private void viewEntriesMonthHelper(String[] strings, int i) {
     }
 
     private void saveButton() {

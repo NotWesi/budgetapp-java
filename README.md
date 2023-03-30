@@ -38,3 +38,28 @@ on the application
 - As a user, I want to be able to add a new yearly budget for a specific year
 - As a user, I want to be able to sort my finances depending on the year and month
 - (Extra) As a user, I want to be able to select different themes or colour schemes for the application
+
+# Instructions for Grader
+
+- You can generate the first required action related to adding Xs to a Y by running the GUI from MainGUI, going to the main menu
+and clicking "Add Entry" to add a specific budget or expenses entry to a specific month of a year. However, you are required to load a previous
+data file from "Load Progress" or create a new yearly budget by clicking "Add Yearly Budget" in the main menu
+
+
+- You can generate the second required action related to adding Xs to a Y by clicking the "View Entries" button in the main menu. You will be asked
+to input specific parameters for year, month and type of entries (budget or expenses). The data will then be displayed in a table format with
+a description with it's corresponding amount
+
+
+- You can locate my visual component by clicking the "Illustrate Entries" button in the main menu. You will be asked to input specific parameters for year, month and type of entries (budget or expenses).
+If any of the parameters are incorrect (yearly budget doesn't exist or month is out of bounds), it will ask you to input again. You can view a
+pie chart of a specific set of budget or expense entries for a month. However, this works best when you have at least two entries added to your month's 
+budget or expense entries.
+
+
+- You can save the state of my application by clicking on the "Save Progress" button in the main menu and typing in a file name for the .json
+file to be saved.
+
+
+- You can reload the state of my application by clicking on the "Load Progress" button in the main menu and typing in a file name for the .json
+  file to be loaded.

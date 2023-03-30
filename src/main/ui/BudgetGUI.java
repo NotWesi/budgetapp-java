@@ -2,9 +2,7 @@ package ui;
 
 import model.*;
 import org.json.JSONObject;
-import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.PieChartBuilder;
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.style.PieStyler;
 import org.knowm.xchart.style.Styler;
 import persistence.JsonReader;
@@ -13,10 +11,7 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import org.knowm.xchart.*;
 import org.knowm.xchart.PieChart;
 
@@ -37,6 +32,8 @@ public class BudgetGUI {
     YearlyBudgets yearlyBudgets;
 
 
+    // constructs a graphical user interface that represents
+    // a budget management tool
     public BudgetGUI() {
         prepareGUI();
     }
@@ -45,7 +42,7 @@ public class BudgetGUI {
         yearlyBudgets = new YearlyBudgets();
 
         // creates the title of the mainframe and dimensions
-        mainFrame = new JFrame("Budget Tracker");
+        mainFrame = new JFrame("Budget Tracker v1.0");
         mainFrame.setSize(500, 500);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,6 +56,86 @@ public class BudgetGUI {
         display = new JTextArea();
         display.setEditable(false);
 
+        JPanel welcomePanel = getWelcomePanel();
+
+        mainMenuOptions1();
+        mainMenuOptions2();
+
+        addMainMenuButtons();
+
+        mainFrame.add(welcomePanel);
+        mainFrame.setVisible(true);
+    }
+
+    // EFFECTS: adds the buttons to the main panel
+    private void addMainMenuButtons() {
+        // adds the buttons to the frame
+        mainPanel.add(addYearlyBudgetButton);
+        mainPanel.add(addEntryButton);
+        mainPanel.add(modifyEntryButton);
+        mainPanel.add(removeEntryButton);
+        mainPanel.add(viewEntriesTableButton);
+        mainPanel.add(viewEntriesButton);
+        mainPanel.add(saveButton);
+        mainPanel.add(loadButton);
+        mainPanel.add(quitButton);
+    }
+
+    // EFFECTS: creates the first half of the buttons for the main menu
+    private void mainMenuOptions1() {
+        // creates an add new yearly budget button to create a new yearly Budget
+        addYearlyBudgetButton = new JButton("Add a New Yearly Budget");
+        addYearlyBudgetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addYearlyBudgetButton.addActionListener(e -> addYearlyBudget());
+
+        // creates an add entry button to add a specific entry
+        addEntryButton = new JButton("Add Entry");
+        addEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addEntryButton.addActionListener(e -> addEntry());
+
+        // creates modify entry button to modify a specific entry
+        modifyEntryButton = new JButton("Modify Entry");
+        modifyEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modifyEntryButton.addActionListener(e -> modifyEntry());
+
+        // creates a remove entry button to remove a specific entry
+        removeEntryButton = new JButton("Remove Entry");
+        removeEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        removeEntryButton.addActionListener(e -> deleteEntry());
+
+    }
+
+    // EFFECTS: creates the second half of the main menu options
+    private void mainMenuOptions2() {
+        // creates a view entries button to view the entries as a table
+        viewEntriesTableButton = new JButton("View Entries");
+        viewEntriesTableButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewEntriesTableButton.addActionListener(e -> viewEntriesTable());
+
+        // creates a view entries button to view the entries as a pie chart
+        viewEntriesButton = new JButton("Illustrate Entries");
+        viewEntriesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewEntriesButton.addActionListener(e -> viewEntries());
+
+        // creates a save progress button to save the users current progress
+        saveButton = new JButton("Save Progress");
+        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveButton.addActionListener(e -> saveData());
+
+        // creates a load progress button to load a users previous progress
+        loadButton = new JButton("Load Progress");
+        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loadButton.addActionListener(e -> loadData());
+
+        // allows the user to quit and exit the application
+        quitButton = new JButton("Quit");
+        quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quitButton.addActionListener(e -> quit());
+    }
+
+    // EFFECTS: creates a welcome panel that opens when the application is first
+    // ran then switches to the main panel
+    private JPanel getWelcomePanel() {
         // creates a new JLabel with the image as its icon
         ImageIcon coinIcon = new ImageIcon("data/coin.png");
         Image coin = coinIcon.getImage();
@@ -81,65 +158,7 @@ public class BudgetGUI {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(continueButton);
         welcomePanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // creates an add new yearly budget button to create a new yearly Budget
-        addYearlyBudgetButton = new JButton("Add a New Yearly Budget");
-        addYearlyBudgetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addYearlyBudgetButton.addActionListener(e -> addYearlyBudget());
-
-        // creates an add entry button to add a specific entry
-        addEntryButton = new JButton("Add Entry");
-        addEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addEntryButton.addActionListener(e -> addEntry());
-
-        // creates modify entry button to modify a specific entry
-        modifyEntryButton = new JButton("Modify Entry");
-        modifyEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modifyEntryButton.addActionListener(e -> modifyEntry());
-
-        // creates a remove entry button to remove a specific entry
-        removeEntryButton = new JButton("Remove Entry");
-        removeEntryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        removeEntryButton.addActionListener(e -> deleteEntry());
-
-        // creates a view entries button to view the entries as a table
-        viewEntriesTableButton = new JButton("View Entries");
-        viewEntriesTableButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewEntriesTableButton.addActionListener(e -> viewEntriesTable());
-
-        // creates a view entries button to view the entries as a pie chart
-        viewEntriesButton = new JButton("Illustrate Entries");
-        viewEntriesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewEntriesButton.addActionListener(e -> viewEntries());
-
-        // creates a save progress button to save the users current progress
-        saveButton = new JButton("Save progress");
-        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        saveButton.addActionListener(e -> saveData());
-
-        // creates a load progress button to load a users previous progress
-        loadButton = new JButton("Load progress");
-        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loadButton.addActionListener(e -> loadData());
-
-        // allows the user to quit and exit the application
-        quitButton = new JButton("Quit");
-        quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quitButton.addActionListener(e -> quit());
-
-        // adds the buttons to the frame
-        mainPanel.add(addYearlyBudgetButton);
-        mainPanel.add(addEntryButton);
-        mainPanel.add(modifyEntryButton);
-        mainPanel.add(removeEntryButton);
-        mainPanel.add(viewEntriesTableButton);
-        mainPanel.add(viewEntriesButton);
-        mainPanel.add(saveButton);
-        mainPanel.add(loadButton);
-        mainPanel.add(quitButton);
-
-        mainFrame.add(welcomePanel);
-        mainFrame.setVisible(true);
+        return welcomePanel;
     }
 
     // EFFECTS: switches from welcome panel to main panel
@@ -187,7 +206,8 @@ public class BudgetGUI {
 
         // create a button to add the entry
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e -> addEntryHelper(addEntryPanel, yearField, monthField, descriptionField, amountField, budgetOrExpenseField));
+        addButton.addActionListener(e -> addEntryHelper(addEntryPanel,
+                yearField, monthField, descriptionField, amountField, budgetOrExpenseField));
 
         // adds button to panel
         addEntryPanel.add(addButton);
@@ -199,7 +219,9 @@ public class BudgetGUI {
 
     // EFFECTS: creates the menu with fields to enter year, month, description
     // amount and type of entry
-    private void addEntryMenu(JPanel addEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField, JTextField budgetOrExpenseField) {
+    private void addEntryMenu(JPanel addEntryPanel, JTextField yearField,
+                              JTextField monthField, JTextField descriptionField,
+                              JTextField amountField, JTextField budgetOrExpenseField) {
         // Add the input fields to the panel
         JLabel yearLabel = new JLabel("Year: ");
         yearLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -225,20 +247,37 @@ public class BudgetGUI {
 
 
     // EFFECTS: adds the entry to the specific month of the year selected
-    private void addEntryHelper(JPanel addEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField, JTextField budgetOrExpenseField) {
+    private void addEntryHelper(JPanel addEntryPanel, JTextField yearField,
+                                JTextField monthField, JTextField descriptionField,
+                                JTextField amountField, JTextField budgetOrExpenseField) {
         // converts the relevant input values into their respective types
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
         YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
         if (selectedYearBudget == null) {
-            JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainPanel,
+                    "This yearly budget does not exist. Please create a yearly budget first.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Budget budget = selectedYearBudget.getMonth(month).getBudget();
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
         Entry entry = new Entry(descriptionField.getText(), Double.parseDouble(amountField.getText()));
+
+        if (isStringInt(budgetOrExpenseField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "The input for choosing expenses or budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
+        addBudgetOrExpenseEntry(budget, expenses, entry, type);
+    }
+
+    // EFFECTS: adds a budget or expense entry
+    private void addBudgetOrExpenseEntry(Budget budget, Expenses expenses, Entry entry, int type) {
         // add entry to appropriate list
         if (type == 1) {
             budget.addEntry(entry);
@@ -279,7 +318,8 @@ public class BudgetGUI {
 
         // creates the modify button
         JButton modifyButton = new JButton("Modify");
-        modifyButton.addActionListener(e -> modifyEntryHelper(modifyEntryPanel, yearField, monthField, descriptionField, amountField,
+        modifyButton.addActionListener(e -> modifyEntryHelper(modifyEntryPanel, yearField,
+                monthField, descriptionField, amountField,
                 newDescriptionField, newAmountField, budgetOrExpenseField));
 
         // adds button to panel
@@ -293,8 +333,10 @@ public class BudgetGUI {
 
     // EFFECTS: creates the menu with fields to enter year, month, description
     // amount and type of entry
-    private void modifyEntryMenu(JPanel modifyEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField,
-                                 JTextField newDescriptionField, JTextField newAmountField, JTextField budgetOrExpenseField) {
+    private void modifyEntryMenu(JPanel modifyEntryPanel, JTextField yearField,
+                                 JTextField monthField, JTextField descriptionField, JTextField amountField,
+                                 JTextField newDescriptionField,
+                                 JTextField newAmountField, JTextField budgetOrExpenseField) {
         // Add the input fields to the panel
         JLabel yearLabel = new JLabel("Year: ");
         yearLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -308,6 +350,14 @@ public class BudgetGUI {
         descriptionLabel.setHorizontalAlignment(JLabel.CENTER);
         modifyEntryPanel.add(descriptionLabel);
         modifyEntryPanel.add(descriptionField);
+        modifyEntryMenu2(modifyEntryPanel, amountField, newDescriptionField, newAmountField, budgetOrExpenseField);
+    }
+
+    // EFFECTS: creates the menu with fields to enter year, month, description
+    // amount and type of entry
+    private void modifyEntryMenu2(JPanel modifyEntryPanel, JTextField amountField,
+                                  JTextField newDescriptionField, JTextField newAmountField,
+                                  JTextField budgetOrExpenseField) {
         JLabel amountLabel = new JLabel("Enter the amount: ");
         amountLabel.setHorizontalAlignment(JLabel.CENTER);
         modifyEntryPanel.add(amountLabel);
@@ -328,8 +378,10 @@ public class BudgetGUI {
 
     // EFFECTS: modifies the entry to the specific month of the year selected
     // converts the relevant input values into their respective types
-    private void modifyEntryHelper(JPanel modifyEntryPanel, JTextField yearField, JTextField monthField, JTextField descriptionField, JTextField amountField,
-                                   JTextField newDescriptionField, JTextField newAmountField, JTextField budgetOrExpenseField) {
+    private void modifyEntryHelper(JPanel modifyEntryPanel, JTextField yearField, JTextField monthField,
+                                   JTextField descriptionField, JTextField amountField,
+                                   JTextField newDescriptionField, JTextField newAmountField,
+                                   JTextField budgetOrExpenseField) {
         // converts the fields into their respective strings and doubles
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
@@ -341,13 +393,29 @@ public class BudgetGUI {
         YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
         // checks if the yearly budget exists
         if (selectedYearBudget == null) {
-            JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainPanel,
+                    "This yearly budget does not exist. Please create a yearly budget first.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Budget budget = selectedYearBudget.getMonth(month).getBudget();
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
+        // checks if the string passed is an integer
+        if (isStringInt(budgetOrExpenseField.getText())) {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "The input for choosing expenses or budget is invalid. Enter an integer.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
+        modifyBudgetOrExpense(description, amount, newDescription, newAmount, budget, expenses, type);
+    }
+
+    // EFFECTS: modifies the entry if it is a budget entry or expenses entry
+    private void modifyBudgetOrExpense(String description, Double amount, String newDescription, Double newAmount,
+                                       Budget budget, Expenses expenses, int type) {
         // checks if the entry can be modified
         if (type == 1) {
             // checks if the budget entries exists
@@ -399,7 +467,8 @@ public class BudgetGUI {
 
         // create a button to add the entry
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> deleteEntryHelper(deleteEntryPanel, yearField, monthField, descriptionField, amountField, budgetOrExpenseField));
+        deleteButton.addActionListener(e -> deleteEntryHelper(deleteEntryPanel,
+                yearField, monthField, descriptionField, amountField, budgetOrExpenseField));
 
         // adds button to panel
         deleteEntryPanel.add(deleteButton);
@@ -420,21 +489,58 @@ public class BudgetGUI {
     // EFFECTS: removes the specific entry from a month's budget or expenses depending
     // on the year
     private void deleteEntryHelper(JPanel deleteEntryPanel, JTextField yearField, JTextField monthField,
-                                   JTextField descriptionField, JTextField amountField, JTextField budgetOrExpenseField) {
+                                   JTextField descriptionField, JTextField amountField,
+                                   JTextField budgetOrExpenseField) {
         // converts the relevant input values into their respective types
         int year = Integer.parseInt(yearField.getText());
         int month = Integer.parseInt(monthField.getText());
         YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
         if (selectedYearBudget == null) {
-            JOptionPane.showMessageDialog(mainPanel, "This yearly budget does not exist. Please create a yearly budget first.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainPanel,
+                    "This yearly budget does not exist. Please create a yearly budget first.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        //try {
+            // checks if yearly budget for year exists
+        //    if (selectedYearBudget == null) {
+        //        JOptionPane.showMessageDialog(mainPanel,
+        //                "This yearly budget does not exist. Please create a yearly budget first.",
+        //                "Error", JOptionPane.ERROR_MESSAGE);
+        //       deleteEntry();
+        //    }
+            // catches a number format exception if user types non-numeric input
+        // } catch (NumberFormatException e) {
+        //   JOptionPane.showMessageDialog(null, "The input is invalid. Please try again.");
+        //    deleteEntry();
+        // }
+
         Budget budget = selectedYearBudget.getMonth(month).getBudget();
         Expenses expenses = selectedYearBudget.getMonth(month).getExpenses();
         String selectedName = descriptionField.getText();
         Double selectedAmount = Double.parseDouble(amountField.getText());
+
+
         int type = Integer.parseInt(budgetOrExpenseField.getText());
 
+        removeBudgetOrExpenseEntry(budget, expenses, selectedName, selectedAmount, type);
+    }
+
+    // EFFECTS: checks if the string passed is an integer
+    // Reference: https://stackoverflow.com/questions/12558206/how-can-i-check-if-a-value-is-of-type-integer
+    public boolean isStringInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    // EFFECTS: removes a specific budget or expenses entry
+    private void removeBudgetOrExpenseEntry(Budget budget, Expenses expenses,
+                                            String selectedName, Double selectedAmount, int type) {
         if (type == 1) {
             // checks if entry exists within budget
             boolean budgetCheck = budget.checkEntry(selectedName, selectedAmount);
@@ -460,6 +566,7 @@ public class BudgetGUI {
         }
     }
 
+    @SuppressWarnings("methodlength")
     // EFFECTS: displays the user entries in the form of a table
     private void viewEntriesTable() {
         // initialize the variables
@@ -516,6 +623,14 @@ public class BudgetGUI {
             }
         });
 
+        getViewEntriesPanel(viewEntriesFrame, viewEntriesPanel, messageLabel,
+                monthButton, budgetButton, expensesButton, viewButton);
+    }
+
+    // EFFECTS: adds the labels and buttons to the panel and makes it visible
+    private void getViewEntriesPanel(JFrame viewEntriesFrame, JPanel viewEntriesPanel,
+                                     JLabel messageLabel, JRadioButton monthButton,
+                                     JRadioButton budgetButton, JRadioButton expensesButton, JButton viewButton) {
         // adds the buttons to the panel
         viewEntriesPanel.add(messageLabel);
         viewEntriesPanel.add(monthButton);
@@ -549,6 +664,26 @@ public class BudgetGUI {
         String[] columnName = {"Description", "Amount"};
         Object[][] data;
 
+        data = getData(type, selectedMonth);
+        // creates a new table with data and column names
+        JTable table = new JTable(data, columnName);
+
+        // Creates a JScrollPane to add the JTable to
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        // Add the JScrollPane to JFrame
+        tableFrame.add(scrollPane);
+
+        // Set the size and visibility of the JFrame
+        tableFrame.setVisible(true);
+
+    }
+
+    // EFFECTS: creates the data in a two column format with the first
+    // column being the description and the second column representing the
+    // amount
+    private Object[][] getData(int type, Month selectedMonth) {
+        Object[][] data;
         // creates a table with the data
         if (type == 1) {
             Budget budget = selectedMonth.getBudget();
@@ -571,20 +706,10 @@ public class BudgetGUI {
                 data[j][1] = entry.getAmount();
             }
         }
-        // creates a new table with data and column names
-        JTable table = new JTable(data, columnName);
-
-        // Creates a JScrollPane to add the JTable to
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        // Add the JScrollPane to JFrame
-        tableFrame.add(scrollPane);
-
-        // Set the size and visibility of the JFrame
-        tableFrame.setVisible(true);
-
+        return data;
     }
 
+    @SuppressWarnings("methodlength")
     // EFFECTS: asks the user if they want to view the entries for a month or year
     // and if they want to view budget or expenses in the form of a pie chart
     private void viewEntries() {
@@ -602,7 +727,7 @@ public class BudgetGUI {
         viewEntriesPanel.setLayout(new BoxLayout(viewEntriesPanel, BoxLayout.Y_AXIS));
 
         // adds a message on the top asking user to select from the following options
-        JLabel messageLabel = new JLabel("Please select between year/month and budget/expenses");
+        JLabel messageLabel = new JLabel("Please select a month and budget/expenses");
         messageLabel.setFont(new Font("Arial", Font.BOLD, 12));
         messageLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         messageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -611,29 +736,18 @@ public class BudgetGUI {
         // https://docs.oracle.com/javase/tutorial/uiswing/components/buttongroup.html
         ButtonGroup timePeriodGroup = new ButtonGroup();
         JRadioButton monthButton = new JRadioButton("Month");
-        JRadioButton yearButton = new JRadioButton("Year");
 
         // adds the buttons to the button group
         timePeriodGroup.add(monthButton);
-        timePeriodGroup.add(yearButton);
 
         // adds the action listeners for each button
         monthButton.addActionListener(e -> {
             // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
             String[] monthAndYear1 = monthAndYearInput("Select a month and year");
-            if (monthAndYear1[0].length() > 0) {
+            if (monthAndYear1[0].length() > 1) {
                 updateDisplay("The input is valid");
             }
             monthAndYear[0] = monthAndYear1;
-        });
-
-        // add the action listener for the year button
-        yearButton.addActionListener(e -> {
-            // implemented using string arrays: https://www.w3schools.com/java/java_arrays.asp
-            year[0] = yearInput("Select a year");
-            if (year[0] == "") {
-                updateDisplay("Test: this is working");
-            }
         });
 
         // Follows same format for budget and expenses
@@ -645,29 +759,19 @@ public class BudgetGUI {
 
         // adds the buttons for view entries
         JButton viewButton = new JButton("View Entries");
-        viewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (monthButton.isSelected() && budgetButton.isSelected()) {
-                    viewEntriesMonthHelper(monthAndYear[0], 1); // retrieve selected
-                    updateDisplay("Option 1");
-                } else if (monthButton.isSelected() && expensesButton.isSelected()) {
-                    viewEntriesMonthHelper(monthAndYear[0], 2);
-                    updateDisplay("Option 2");
-                } else if (yearButton.isSelected() && budgetButton.isSelected()) {
-                    viewEntriesYearHelper(year[0], 1);
-                    updateDisplay("Option 3");
-                } else {
-                    viewEntriesYearHelper(year[0], 2);
-                    updateDisplay("Option 4");
-                }
+        viewButton.addActionListener(e -> {
+            if (monthButton.isSelected() && budgetButton.isSelected()) {
+                viewEntriesMonthHelper(monthAndYear[0], 1); // retrieve selected
+                updateDisplay("Your input was successful!");
+            } else if (monthButton.isSelected() && expensesButton.isSelected()) {
+                viewEntriesMonthHelper(monthAndYear[0], 2);
+                updateDisplay("Your input was successful!");
             }
         });
 
         // adds the buttons to the panel
         viewEntriesPanel.add(messageLabel);
         viewEntriesPanel.add(monthButton);
-        viewEntriesPanel.add(yearButton);
         viewEntriesPanel.add(budgetButton);
         viewEntriesPanel.add(expensesButton);
         viewEntriesPanel.add(viewButton);
@@ -714,7 +818,8 @@ public class BudgetGUI {
 
     // EFFECTS: stores the month and year input depending on the values passed
     // checks if values match proper parameters and ranges
-    private String[] monthAndYearHelper(String title, String[] monthAndYear, JPanel panel, JTextField monthField, JTextField yearField) {
+    private String[] monthAndYearHelper(String title, String[] monthAndYear,
+                                        JPanel panel, JTextField monthField, JTextField yearField) {
         // checks if choice has been selected
         int choice = JOptionPane.showConfirmDialog(null, panel, title, JOptionPane.OK_CANCEL_OPTION);
         if (choice == JOptionPane.OK_OPTION) {
@@ -758,16 +863,7 @@ public class BudgetGUI {
         JLabel yearLabel = new JLabel("Year: ");
         JTextField yearField = new JTextField(10);
 
-        // create panel for labels and text fields
-        JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-        optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        optionsPanel.add(yearLabel);
-        optionsPanel.add(yearField);
-
-        // creates a layout for the panel
-        panel.setLayout(new BorderLayout());
-        panel.add(optionsPanel, BorderLayout.CENTER);
+        getYearInputPanel(panel, yearLabel, yearField);
 
         int choice = JOptionPane.showConfirmDialog(null, panel, title, JOptionPane.OK_CANCEL_OPTION);
         if (choice == JOptionPane.OK_OPTION) {
@@ -792,6 +888,21 @@ public class BudgetGUI {
         return year;
     }
 
+    // EFFECTS: creates a panel that asks the year to input the year for the
+    // specified yearly budget
+    private void getYearInputPanel(JPanel panel, JLabel yearLabel, JTextField yearField) {
+        // create panel for labels and text fields
+        JPanel optionsPanel = new JPanel();
+        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
+        optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        optionsPanel.add(yearLabel);
+        optionsPanel.add(yearField);
+
+        // creates a layout for the panel
+        panel.setLayout(new BorderLayout());
+        panel.add(optionsPanel, BorderLayout.CENTER);
+    }
+
 
     private void viewEntriesMonthHelper(String[] monthAndYear, int type) {
         // initializes the relevant variables from the string array
@@ -807,6 +918,9 @@ public class BudgetGUI {
 
     }
 
+    // REQUIRES: budget.size() or expenses.size() > 1
+    // EFFECTS: creates a pie chart for the budget or expense entries for a specific month
+    @SuppressWarnings("methodlength")
     private void pieChartHelper(int month, int year, int type) {
         // creates a JFrame with dimensions
         JFrame pieChartFrame = new JFrame("Pie Chart");
@@ -814,9 +928,6 @@ public class BudgetGUI {
         String title = "";
         // converts the monthly budget data into a HashMap
         HashMap<String, Double> monthData;
-        // finds the selected month based on the variable passed
-        YearlyBudget selectedYearBudget = findYearlyBudgetByYear(yearlyBudgets, year);
-        Month selectedMonth = selectedYearBudget.getMonth(month);
 
         if (type == 1) {
             monthData = getMonthlyBudgetData(year, month);
@@ -825,12 +936,13 @@ public class BudgetGUI {
         } else {
             // data = selectedMonth.getExpenses().getEntries();
             monthData = getMonthlyExpensesData(year, month);
-            title = ("Monthly Expenses" + convertMonth(month));
+            title = ("Monthly Expenses For " + convertMonth(month));
         }
 
         // creates a pie chart from the data passed
         // Refer to the top answer of this stackoverflow page: https://stackoverflow.com/questions/13662984/creating-pie-charts-programmatically
-        PieChart chart = new PieChartBuilder().width(800).height(600).title(title).theme(Styler.ChartTheme.GGPlot2).build();
+        PieChart chart =
+                new PieChartBuilder().width(800).height(600).title(title).theme(Styler.ChartTheme.GGPlot2).build();
 
         // Customize Chart
         chart.getStyler().setLegendVisible(false);
@@ -851,7 +963,7 @@ public class BudgetGUI {
         double total = 0;
         for (double value : monthData.values()) {
             total += value;
-         }
+        }
 
         // Create panel for chart and label
         JPanel panel = new JPanel();
@@ -936,6 +1048,8 @@ public class BudgetGUI {
     }
 
 
+    // REQUIRES: yearlyBudgets.size() > 0
+    // EFFECTS: calls saveCurrentData() to save data as JSON Object
     private void saveData() {
         // calls the save current method to save the progress as a JSONObject
         // checks if there is a year budget already added
@@ -959,6 +1073,7 @@ public class BudgetGUI {
         return jsonWriter.saveData(jsonData);
     }
 
+    @SuppressWarnings("methodlength")
     // EFFECTS: converts month int to the respective name
     private String convertMonth(int month) {
         String monthName;
