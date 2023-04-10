@@ -13,11 +13,15 @@ public class Month {
 
     // EFFECTS: returns budget
     public Budget getBudget() {
+        // logs event that month budget has been returned
+        EventLog.getInstance().logEvent(new Event("Month budget has been returned."));
         return budget;
     }
 
     // EFFECTS: returns expenses
     public Expenses getExpenses() {
+        // logs event that month expenses has been returned
+        EventLog.getInstance().logEvent(new Event("Month expenses have been returned."));
         return expenses;
     }
 

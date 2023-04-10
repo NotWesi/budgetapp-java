@@ -65,3 +65,24 @@ file to be saved.
 
 - You can reload the state of my application by clicking on the "Load Progress" button in the main menu and typing in a file name for the .json
   file to be loaded if it exists.
+
+# Phase 4: Task 2
+The following event log represent the events of user adding en entry to yearly budget during an application runtime
+- Mon Apr 10 12:23:21 PDT 2023:
+  Yearly budget information has been set.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Yearly budgets size has been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Yearly budget exists.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Year has been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Month has been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Month budget has been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Month has been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Month expenses have been returned.
+- Mon Apr 10 12:23:30 PDT 2023:
+  Entry has been added

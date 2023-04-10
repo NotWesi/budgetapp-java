@@ -23,6 +23,8 @@ public class Entry {
     // EFFECTS: sets description
     public void setName(String name) {
         this.name = name;
+        // logs the event that entry description has been set
+        EventLog.getInstance().logEvent(new Event("Entry description has been set."));
     }
 
     // EFFECTS: returns amount
@@ -33,6 +35,8 @@ public class Entry {
     // EFFECTS: sets amount
     public void setAmount(double amount) {
         this.amount = amount;
+        // logs the event that entry amount has been set
+        EventLog.getInstance().logEvent(new Event("Entry amount has been set."));
     }
 
 }

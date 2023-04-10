@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import org.json.JSONObject;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.style.PieStyler;
@@ -590,14 +591,14 @@ public class BudgetGUI {
         }
 
         //try {
-            // checks if yearly budget for year exists
+        // checks if yearly budget for year exists
         //    if (selectedYearBudget == null) {
         //        JOptionPane.showMessageDialog(mainPanel,
         //                "This yearly budget does not exist. Please create a yearly budget first.",
         //                "Error", JOptionPane.ERROR_MESSAGE);
         //       deleteEntry();
         //    }
-            // catches a number format exception if user types non-numeric input
+        // catches a number format exception if user types non-numeric input
         // } catch (NumberFormatException e) {
         //   JOptionPane.showMessageDialog(null, "The input is invalid. Please try again.");
         //    deleteEntry();
@@ -1259,8 +1260,11 @@ public class BudgetGUI {
     }
 
 
-
     private void quit() {
+        // prints out the events that occurred during the application
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
+        }
         System.exit(0);
     }
 
@@ -1269,7 +1273,7 @@ public class BudgetGUI {
         // creates a new JFrame to show the message
         JFrame msgFrame = new JFrame();
         msgFrame.setTitle("Success!");
-        msgFrame.setSize(400,100);
+        msgFrame.setSize(400, 100);
 
         // creates a JPanel to hold the message and OK button
         JPanel msgPanel = new JPanel(new BorderLayout());
@@ -1319,6 +1323,21 @@ public class BudgetGUI {
             }
         }
         return null; // returns null if not found
+    }
+
+    /**
+     * Represents the action to be taken when the user wants to
+     * clear the event log.
+     */
+    private class ClearLogAction extends AbstractAction {
+        ClearLogAction() {
+            super("Clear log");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            EventLog.getInstance().clear();
+        }
     }
 }
 

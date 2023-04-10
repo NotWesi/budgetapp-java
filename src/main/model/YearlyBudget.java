@@ -23,15 +23,21 @@ public class YearlyBudget {
     // EFFECTS: sets the month info for each month
     public void setMonth(int month, Month monthInfo) {
         months.set(month - 1, monthInfo);
+        // logs the event that month description has been set
+        EventLog.getInstance().logEvent(new Event("Month description has been set to monthly info."));
     }
 
     // EFFECTS: returns the month object
     public Month getMonth(int month) {
+        // logs the event that month has been returned
+        EventLog.getInstance().logEvent(new Event("Month has been returned."));
         return months.get(month - 1);
     }
 
     // EFFECTS: returns the list of months
     public ArrayList<Month> getMonths() {
+        // logs the event that month has been returned
+        EventLog.getInstance().logEvent(new Event("Months have been returned."));
         return months;
     }
 
@@ -51,6 +57,8 @@ public class YearlyBudget {
 
     // EFFECTS: return the int year for the object
     public int getYearInt() {
+        // logs the event that year int has been returned
+        EventLog.getInstance().logEvent(new Event("Year has been returned."));
         return this.year;
     }
 
