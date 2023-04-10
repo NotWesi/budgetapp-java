@@ -39,7 +39,7 @@ on the application
 - As a user, I want to be able to sort my finances depending on the year and month
 - (Extra) As a user, I want to be able to select different themes or colour schemes for the application
 
-# Instructions for Grader
+## Instructions for Grader
 
 - You can generate the first required action related to adding Xs to a Y by running the GUI from MainGUI, going to the main menu
 and clicking "Add Entry" to add a specific budget or expenses entry to a specific month of a year. However, you are required to load a previous
@@ -66,7 +66,7 @@ file to be saved.
 - You can reload the state of my application by clicking on the "Load Progress" button in the main menu and typing in a file name for the .json
   file to be loaded if it exists.
 
-# Phase 4: Task 2
+## Phase 4: Task 2
 The following event log represent the events of user adding en entry to yearly budget during an application runtime
 - Mon Apr 10 12:23:21 PDT 2023:
   Yearly budget information has been set.
@@ -86,3 +86,21 @@ The following event log represent the events of user adding en entry to yearly b
   Month expenses have been returned.
 - Mon Apr 10 12:23:30 PDT 2023:
   Entry has been added
+
+## Phase 4: Task 3
+- Referring to the UML_Class_Diagram.png, there is some refactoring that immediately comes to mind. Firstly, we will look at the relationship
+between the Budget and Expenses classes. Currently, the Expenses class extends the Budget class as the methods and constructor used for both methods
+is identical. This is a valid abstraction approach that was taken to minimize duplicate code among the classes. A possible refactoring approach could
+be to create an abstract class (say MonthlyInfo) that implements the methods that are used in both Budget and Expenses classes which can be 
+extended by these classes. The Entry class would then form a dependency relationship with the abstract class that is extended to Budget and Expenses. 
+This would produce a triangle hierarchy between the three classes and would be a better code design approach and
+improve code readability.
+
+
+- Another refactoring approach is completely removing the Month class and implementing it as part of YearlyBudget. The Month class has two fields:
+one for budget and one for expenses. The refactoring would result in a nested list field for YearlyBudget where the index would relate to the
+month of the year (index 0 for Month 1 for example). The methods described in Month would then be implemented as part of the YearlyBudget using
+the appropriate list within the nested list for budget and expenses that match the index for the appropriate month. The disadvantages for this
+refactoring would result in nested loops within the method that could be possibly detriment code readability. It may improve code design as the
+number of lines would likely reduce. The current implementation chose code readability over code design. Understanding the limitations of
+different refactoring approaches and their effect on your code is an important and critical part of software design.
