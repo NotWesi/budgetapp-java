@@ -56,6 +56,8 @@ public class Budget {
 
     // EFFECTS: returns list of entries
     public ArrayList<Entry> getEntries() {
+        // logs the event that entries have been returned
+        EventLog.getInstance().logEvent(new Event("The specific list of entries have been returned."));
         return entries;
     }
 
@@ -93,8 +95,13 @@ public class Budget {
     public void modifyEntryAmount(int index, double newAmount) {
         Entry entry = entries.get(index);
         entry.setAmount(newAmount);
-        // logs the event that amount has been modified
-        EventLog.getInstance().logEvent(new Event("Entry amount has been modified."));
+        // logs the event that amount has been modified or not
+        if (entry == null) {
+            EventLog.getInstance().logEvent(new Event("Entry amount has not been modified as it doesn't exist."));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Entry amount has been modified."));
+        }
+
     }
 
     // REQUIRES: int index and string newName
@@ -103,8 +110,12 @@ public class Budget {
     public void modifyEntryDescription(int index, String newName) {
         Entry entry = entries.get(index);
         entry.setName(newName);
-        // logs the event that entry description has been modified
-        EventLog.getInstance().logEvent(new Event("Entry amount has been modified."));
+        // logs the event that description has been modified or not
+        if (entry == null) {
+            EventLog.getInstance().logEvent(new Event("Entry description has not been modified as it doesn't exist."));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Entry description has been modified."));
+        }
     }
 
     // EFFECTS: returns length of the list of yearly objects

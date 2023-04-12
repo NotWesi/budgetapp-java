@@ -30,14 +30,14 @@ public class YearlyBudget {
     // EFFECTS: returns the month object
     public Month getMonth(int month) {
         // logs the event that month has been returned
-        EventLog.getInstance().logEvent(new Event("Month has been returned."));
+        EventLog.getInstance().logEvent(new Event("The specific month has been returned."));
         return months.get(month - 1);
     }
 
     // EFFECTS: returns the list of months
     public ArrayList<Month> getMonths() {
         // logs the event that month has been returned
-        EventLog.getInstance().logEvent(new Event("Months have been returned."));
+        EventLog.getInstance().logEvent(new Event("The list of months have been returned."));
         return months;
     }
 
@@ -52,6 +52,8 @@ public class YearlyBudget {
             total += month.netmonthlyBudget();
         }
         // Calculate the yearly net budget
+        // logs the event that the yearly net budget has been calculated
+        EventLog.getInstance().logEvent(new Event("The net budget for the year has been calculated."));
         return total;
     }
 

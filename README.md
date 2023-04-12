@@ -67,28 +67,49 @@ file to be saved.
   file to be loaded if it exists.
 
 ## Phase 4: Task 2
-The following event log represent the events of user adding en entry to yearly budget during an application runtime
-- Mon Apr 10 12:23:21 PDT 2023:
-  Yearly budget information has been set.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Yearly budgets size has been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Yearly budget exists.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Year has been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Month has been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Month budget has been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Month has been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Month expenses have been returned.
-- Mon Apr 10 12:23:30 PDT 2023:
-  Entry has been added
+The following event log represent the events of user adding en entry to yearly budget then trying to modify an entry 
+that doesn't exist during an application runtime
+- Tue Apr 11 17:05:10 PDT 2023: 
+Yearly budget information has been set.
+- Tue Apr 11 17:05:23 PDT 2023:
+Yearly budgets size has been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+Yearly budget exists.
+- Tue Apr 11 17:05:23 PDT 2023:
+Year has been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+The specific month has been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+Month budget has been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+The specific month has been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+Month expenses have been returned.
+- Tue Apr 11 17:05:23 PDT 2023:
+Entry has been added
+- Tue Apr 11 17:05:40 PDT 2023:
+Yearly budgets size has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Yearly budget exists.
+- Tue Apr 11 17:05:40 PDT 2023:
+Year has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+The specific month has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Month budget has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+The specific month has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Month expenses have been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Entry description has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Entry amount has been returned.
+- Tue Apr 11 17:05:40 PDT 2023:
+Entry does not exist.
 
 ## Phase 4: Task 3
-- Referring to the UML_Class_Diagram.png, there is some refactoring that immediately comes to mind. Firstly, we will look at the relationship
+- Referring to the UML_Design_Diagram.png, there is some refactoring that immediately comes to mind. Firstly, we will look at the relationship
 between the Budget and Expenses classes. Currently, the Expenses class extends the Budget class as the methods and constructor used for both methods
 is identical. This is a valid abstraction approach that was taken to minimize duplicate code among the classes. A possible refactoring approach could
 be to create an abstract class (say MonthlyInfo) that implements the methods that are used in both Budget and Expenses classes which can be 
@@ -101,6 +122,6 @@ improve code readability.
 one for budget and one for expenses. The refactoring would result in a nested list field for YearlyBudget where the index would relate to the
 month of the year (index 0 for Month 1 for example). The methods described in Month would then be implemented as part of the YearlyBudget using
 the appropriate list within the nested list for budget and expenses that match the index for the appropriate month. The disadvantages for this
-refactoring would result in nested loops within the method that could be possibly detriment code readability. It may improve code design as the
-number of lines would likely reduce. The current implementation chose code readability over code design. Understanding the limitations of
+refactoring would result in nested loops within the method that could be possibly detriment code readability. It may improve code efficiency as the
+number of lines would likely reduce. The current implementation chose code readability over code efficiency. Understanding the limitations of
 different refactoring approaches and their effect on your code is an important and critical part of software design.

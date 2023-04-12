@@ -17,6 +17,8 @@ public class Entry {
 
     // EFFECTS: returns description
     public String getName() {
+        // logs the event that entry description has been returned
+        EventLog.getInstance().logEvent(new Event("Entry description has been returned."));
         return name;
     }
 
@@ -29,6 +31,8 @@ public class Entry {
 
     // EFFECTS: returns amount
     public double getAmount() {
+        // logs the event that entry amount has been returned
+        EventLog.getInstance().logEvent(new Event("Entry amount has been returned."));
         return amount;
     }
 
