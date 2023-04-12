@@ -13,7 +13,7 @@ public class YearlyBudgets {
     // EFFECTS: returns list of yearly budgets
     public ArrayList<YearlyBudget> getYearlyBudgets() {
         // logs the event that yearly budgets have been returned
-        EventLog.getInstance().logEvent(new Event("Yearly budgets have been returned."));
+        EventLog.getInstance().logEvent(new Event("Yearly budgets have been returned: " + yearlyBudgets.toString()));
         return yearlyBudgets;
     }
 
@@ -21,7 +21,7 @@ public class YearlyBudgets {
     public void addYearlyBudget(YearlyBudget yb) {
         yearlyBudgets.add(yb);
         // logs the event that yearly budget has been added
-        EventLog.getInstance().logEvent(new Event("Yearly budget has been added."));
+        EventLog.getInstance().logEvent(new Event("Yearly budget has been added: " + yb.toString()));
     }
 
     // MODIFIES: yearlyBudgets
@@ -42,7 +42,7 @@ public class YearlyBudgets {
             return null;
         } else {
             // logs the event that yearly budget exists
-            EventLog.getInstance().logEvent(new Event("Yearly budget exists."));
+            EventLog.getInstance().logEvent(new Event("Yearly budget exists: " + yb));
             return yb;
         }
     }
@@ -64,7 +64,7 @@ public class YearlyBudgets {
             return null;
         } else {
             // logs the event that yearly budget exists
-            EventLog.getInstance().logEvent(new Event("Yearly budget exists."));
+            EventLog.getInstance().logEvent(new Event("Yearly budget exists: " + yb.toString()));
             return yb;
         }
     }

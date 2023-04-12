@@ -18,7 +18,7 @@ public class Entry {
     // EFFECTS: returns description
     public String getName() {
         // logs the event that entry description has been returned
-        EventLog.getInstance().logEvent(new Event("Entry description has been returned."));
+        EventLog.getInstance().logEvent(new Event("Entry description has been returned: " + this.name));
         return name;
     }
 
@@ -26,13 +26,13 @@ public class Entry {
     public void setName(String name) {
         this.name = name;
         // logs the event that entry description has been set
-        EventLog.getInstance().logEvent(new Event("Entry description has been set."));
+        EventLog.getInstance().logEvent(new Event("Entry description has been set: " + name));
     }
 
     // EFFECTS: returns amount
     public double getAmount() {
         // logs the event that entry amount has been returned
-        EventLog.getInstance().logEvent(new Event("Entry amount has been returned."));
+        EventLog.getInstance().logEvent(new Event("Entry amount has been returned: " + this.amount));
         return amount;
     }
 
@@ -40,7 +40,7 @@ public class Entry {
     public void setAmount(double amount) {
         this.amount = amount;
         // logs the event that entry amount has been set
-        EventLog.getInstance().logEvent(new Event("Entry amount has been set."));
+        EventLog.getInstance().logEvent(new Event("Entry amount has been set: " + amount));
     }
 
 }

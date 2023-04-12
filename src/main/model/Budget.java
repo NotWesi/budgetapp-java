@@ -20,7 +20,7 @@ public class Budget {
     public void addEntry(Entry entry) {
         entries.add(entry);
         // logs event that entry has been added
-        EventLog.getInstance().logEvent(new Event("Entry has been added"));
+        EventLog.getInstance().logEvent(new Event("Entry has been added: " + entry.toString()));
     }
 
     // REQUIRES: name and amount for entry
@@ -28,13 +28,17 @@ public class Budget {
     // EFFECTS: remove an entry
     public void removeEntry(String name, double amount) {
         // loops through the list based on its size
+        boolean removed = false;
         for (int i = 0; i < entries.size(); i++) {
             if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
                 entries.remove(i); // removes the entry if it is present in the list
+                removed = true;
             }
         }
-        // logs the event of entry being removed
-        EventLog.getInstance().logEvent(new Event("Entry has been removed."));
+        // logs the event of entry being removed if removed
+        if (removed) {
+            EventLog.getInstance().logEvent(new Event("Entry has been removed from: " + entries.toString()));
+        }
     }
 
     // REQUIRES: name and amount
@@ -45,7 +49,7 @@ public class Budget {
             if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
                 Entry e = entries.get(i);
                 // logs the event that entry has been returned
-                EventLog.getInstance().logEvent(new Event("Entry returned."));
+                EventLog.getInstance().logEvent(new Event("Entry returned: " + e.toString()));
                 return e; // returns the entry that matches the description and amount
             }
         }
@@ -57,7 +61,8 @@ public class Budget {
     // EFFECTS: returns list of entries
     public ArrayList<Entry> getEntries() {
         // logs the event that entries have been returned
-        EventLog.getInstance().logEvent(new Event("The specific list of entries have been returned."));
+        EventLog.getInstance().logEvent(new Event("The specific list of entries have been returned: "
+                + entries.toString()));
         return entries;
     }
 
@@ -67,7 +72,7 @@ public class Budget {
         // loops through the list of entries to see if description and amount match
         for (int i = 0; i < entries.size(); i++) {
             if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
-                EventLog.getInstance().logEvent(new Event("Entry exists."));
+                EventLog.getInstance().logEvent(new Event("Entry exists: " + entries.get(i).toString()));
                 return true; // returns true if entry present
             }
         }
@@ -99,7 +104,7 @@ public class Budget {
         if (entry == null) {
             EventLog.getInstance().logEvent(new Event("Entry amount has not been modified as it doesn't exist."));
         } else {
-            EventLog.getInstance().logEvent(new Event("Entry amount has been modified."));
+            EventLog.getInstance().logEvent(new Event("Entry amount has been modified: " + entry.toString()));
         }
 
     }
@@ -114,7 +119,7 @@ public class Budget {
         if (entry == null) {
             EventLog.getInstance().logEvent(new Event("Entry description has not been modified as it doesn't exist."));
         } else {
-            EventLog.getInstance().logEvent(new Event("Entry description has been modified."));
+            EventLog.getInstance().logEvent(new Event("Entry description has been modified: " + entry.toString()));
         }
     }
 
@@ -127,7 +132,7 @@ public class Budget {
     // EFFECTS: return the entry at an index
     public Entry getSpecificEntry(int i) {
         // logs the event that entry has been returned
-        EventLog.getInstance().logEvent(new Event("Entry has been found using index."));
+        EventLog.getInstance().logEvent(new Event("Entry has been found using index: " + entries.get(i).toString()));
         return entries.get(i);
     }
 
@@ -136,7 +141,8 @@ public class Budget {
         for (int i = 0; i < entries.size(); i++) {
             if ((entries.get(i).getName().equals(name) && (entries.get(i).getAmount() == amount))) {
                 // logs event that entry exists and index has been returned
-                EventLog.getInstance().logEvent(new Event("Entry exists and index returned."));
+                EventLog.getInstance().logEvent(new Event("Entry exists "
+                        + entries.get(i).toString() + " and index returned."));
                 return i; // returns the entry index that matches the description and amount
             }
         }

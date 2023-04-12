@@ -1262,6 +1262,7 @@ public class BudgetGUI {
 
     private void quit() {
         // prints out the events that occurred during the application
+        System.out.println("The events logged since the application started ");
         for (Event event : EventLog.getInstance()) {
             System.out.println(event.toString());
         }

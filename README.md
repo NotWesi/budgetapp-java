@@ -67,46 +67,77 @@ file to be saved.
   file to be loaded if it exists.
 
 ## Phase 4: Task 2
-The following event log represent the events of user adding en entry to yearly budget then trying to modify an entry 
-that doesn't exist during an application runtime
-- Tue Apr 11 17:05:10 PDT 2023: 
+The following event log represent the events of user adding en entry to yearly budget then trying to remove an entry 
+that doesn't exist then modifying an existing entry during an application runtime
+- The events logged since the application started
+- Wed Apr 12 11:25:16 PDT 2023:
 Yearly budget information has been set.
-- Tue Apr 11 17:05:23 PDT 2023:
+- Wed Apr 12 11:25:25 PDT 2023:
 Yearly budgets size has been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-Yearly budget exists.
-- Tue Apr 11 17:05:23 PDT 2023:
+- Wed Apr 12 11:25:25 PDT 2023:
+Yearly budget exists: model.YearlyBudget@5467ebb6
+- Wed Apr 12 11:25:25 PDT 2023:
 Year has been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-The specific month has been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-Month budget has been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-The specific month has been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-Month expenses have been returned.
-- Tue Apr 11 17:05:23 PDT 2023:
-Entry has been added
-- Tue Apr 11 17:05:40 PDT 2023:
+- Wed Apr 12 11:25:25 PDT 2023:
+The specific month has been returned: model.Month@751f4a72
+- Wed Apr 12 11:25:25 PDT 2023:
+Month budget has been returned: model.Budget@5319dab7
+- Wed Apr 12 11:25:25 PDT 2023:
+The specific month has been returned: model.Month@751f4a72
+- Wed Apr 12 11:25:25 PDT 2023:
+Month expenses have been returned: model.Expenses@205195e5
+- Wed Apr 12 11:25:25 PDT 2023:
+Entry has been added: model.Entry@44c36fca
+- Wed Apr 12 11:25:36 PDT 2023:
 Yearly budgets size has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-Yearly budget exists.
-- Tue Apr 11 17:05:40 PDT 2023:
+- Wed Apr 12 11:25:36 PDT 2023:
+Yearly budget exists: model.YearlyBudget@5467ebb6
+- Wed Apr 12 11:25:36 PDT 2023:
 Year has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-The specific month has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-Month budget has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-The specific month has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-Month expenses have been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-Entry description has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
-Entry amount has been returned.
-- Tue Apr 11 17:05:40 PDT 2023:
+- Wed Apr 12 11:25:36 PDT 2023:
+The specific month has been returned: model.Month@13c81afd
+- Wed Apr 12 11:25:36 PDT 2023:
+Month budget has been returned: model.Budget@63e3ca6a
+- Wed Apr 12 11:25:36 PDT 2023:
+The specific month has been returned: model.Month@13c81afd
+- Wed Apr 12 11:25:36 PDT 2023:
+Month expenses have been returned: model.Expenses@39a3daee
+- Wed Apr 12 11:25:36 PDT 2023:
 Entry does not exist.
+- Wed Apr 12 11:25:49 PDT 2023:
+Yearly budgets size has been returned.
+- Wed Apr 12 11:25:49 PDT 2023:
+Yearly budget exists: model.YearlyBudget@5467ebb6
+- Wed Apr 12 11:25:49 PDT 2023:
+Year has been returned.
+- Wed Apr 12 11:25:49 PDT 2023:
+The specific month has been returned: model.Month@751f4a72
+- Wed Apr 12 11:25:49 PDT 2023:
+Month budget has been returned: model.Budget@5319dab7
+- Wed Apr 12 11:25:49 PDT 2023:
+The specific month has been returned: model.Month@751f4a72
+- Wed Apr 12 11:25:49 PDT 2023:
+Month expenses have been returned: model.Expenses@205195e5
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry description has been returned: Rent
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry amount has been returned: 2000.0
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry exists: model.Entry@44c36fca
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry description has been returned: Rent
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry amount has been returned: 2000.0
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry exists model.Entry@44c36fca and index returned.
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry amount has been set: 2500.0
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry amount has been modified: model.Entry@44c36fca
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry description has been set: Rent
+- Wed Apr 12 11:25:49 PDT 2023:
+Entry description has been modified: model.Entry@44c36fca
 
 ## Phase 4: Task 3
 - Referring to the UML_Design_Diagram.png, there is some refactoring that immediately comes to mind. Firstly, we will look at the relationship

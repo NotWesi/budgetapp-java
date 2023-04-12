@@ -30,14 +30,15 @@ public class YearlyBudget {
     // EFFECTS: returns the month object
     public Month getMonth(int month) {
         // logs the event that month has been returned
-        EventLog.getInstance().logEvent(new Event("The specific month has been returned."));
+        EventLog.getInstance().logEvent(new Event("The specific month has been returned: "
+                + months.get(month - 1).toString()));
         return months.get(month - 1);
     }
 
     // EFFECTS: returns the list of months
     public ArrayList<Month> getMonths() {
         // logs the event that month has been returned
-        EventLog.getInstance().logEvent(new Event("The list of months have been returned."));
+        EventLog.getInstance().logEvent(new Event("The list of months have been returned: " + this.months.toString()));
         return months;
     }
 

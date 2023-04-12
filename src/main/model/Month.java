@@ -14,14 +14,14 @@ public class Month {
     // EFFECTS: returns budget
     public Budget getBudget() {
         // logs event that month budget has been returned
-        EventLog.getInstance().logEvent(new Event("Month budget has been returned."));
+        EventLog.getInstance().logEvent(new Event("Month budget has been returned: " + this.budget.toString()));
         return budget;
     }
 
     // EFFECTS: returns expenses
     public Expenses getExpenses() {
         // logs event that month expenses has been returned
-        EventLog.getInstance().logEvent(new Event("Month expenses have been returned."));
+        EventLog.getInstance().logEvent(new Event("Month expenses have been returned: " + this.expenses.toString()));
         return expenses;
     }
 
