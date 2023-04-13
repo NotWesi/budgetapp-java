@@ -140,6 +140,13 @@ Entry description has been set: Rent
 Entry description has been modified: model.Entry@44c36fca
 
 ## Phase 4: Task 3
+- The most obvious refactoring that can be done is reducing the length of the methods that ended up being over 25 lines. There were some methods
+that exceeded the limit because due to habit of trying to make a method that performs a user story then refactoring it afterwards. This caused some methods to
+perform more than one specific task which is bad coding practice that leads to a decline in code readability especially when you are working in groups
+and other people may have to review your code. Performing method refactoring simultaneously while making sure one method does one specific task is an important
+habit to adopt and would improve code design and readability.
+
+
 - Referring to the UML_Design_Diagram.png, there is some refactoring that immediately comes to mind. Firstly, we will look at the relationship
 between the Budget and Expenses classes. Currently, the Expenses class extends the Budget class as the methods and constructor used for both methods
 is identical. This is a valid abstraction approach that was taken to minimize duplicate code among the classes. A possible refactoring approach could
