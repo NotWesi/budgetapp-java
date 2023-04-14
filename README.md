@@ -39,7 +39,7 @@ on the application
 - As a user, I want to be able to sort my finances depending on the year and month
 - (Extra) As a user, I want to be able to select different themes or colour schemes for the application
 
-## Instructions for Grader
+## Instructions for GUI Interface
 
 - You can generate the first required action related to adding Xs to a Y by running the GUI from MainGUI, going to the main menu
 and clicking "Add Entry" to add a specific budget or expenses entry to a specific month of a year. However, you are required to load a previous
@@ -66,7 +66,7 @@ file to be saved.
 - You can reload the state of my application by clicking on the "Load Progress" button in the main menu and typing in a file name for the .json
   file to be loaded if it exists.
 
-## Phase 4: Task 2
+## Event Log Sample
 The following event log represent the events of user adding en entry to yearly budget then trying to remove an entry 
 that doesn't exist then modifying an existing entry during an application runtime
 - The events logged since the application started
@@ -139,7 +139,7 @@ Entry description has been set: Rent
 - Wed Apr 12 11:25:49 PDT 2023:
 Entry description has been modified: model.Entry@44c36fca
 
-## Phase 4: Task 3
+## Future Improvements
 - The most obvious refactoring that can be done is reducing the length of the methods that ended up being over 25 lines. There were some methods
 that exceeded the limit because due to habit of trying to make a method that performs a user story then refactoring it afterwards. This caused some methods to
 perform more than one specific task which is bad coding practice that leads to a decline in code readability especially when you are working in groups
